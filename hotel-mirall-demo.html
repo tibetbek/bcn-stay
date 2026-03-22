@@ -28,11 +28,9 @@ nav.scrolled{background:rgba(15,31,61,.97);padding:14px 48px;backdrop-filter:blu
 
 /* ─── HERO ─── */
 .hero{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;text-align:center}
-.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#0a1628 0%,#162548 25%,#1a2f5a 50%,#0f1f3d 75%,#0a1628 100%);z-index:0}
+.hero-bg{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover}
 .hero::after{content:'';position:absolute;inset:0;background:
-  radial-gradient(ellipse 80% 60% at 20% 80%,rgba(201,168,76,.12) 0%,transparent 60%),
-  radial-gradient(ellipse 60% 50% at 80% 20%,rgba(201,168,76,.08) 0%,transparent 50%),
-  radial-gradient(ellipse 100% 100% at 50% 50%,rgba(255,255,255,.02) 0%,transparent 70%);
+  linear-gradient(to bottom,rgba(10,22,40,.55) 0%,rgba(15,31,61,.7) 50%,rgba(10,22,40,.85) 100%);
 z-index:1}
 .hero-pattern{position:absolute;inset:0;z-index:1;opacity:.04;background-image:
   repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(255,255,255,.5) 40px,rgba(255,255,255,.5) 41px),
@@ -62,12 +60,8 @@ section{padding:100px 48px}
 .room-card{background:var(--bg);border-radius:12px;overflow:hidden;transition:transform .35s,box-shadow .35s;cursor:pointer}
 .room-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
 .room-img{height:220px;position:relative;overflow:hidden}
-.room-img::before{content:'';position:absolute;inset:0;z-index:1}
-.room-1 .room-img::before{background:linear-gradient(135deg,#1a2f5a,#2a4070,#1a2f5a)}
-.room-2 .room-img::before{background:linear-gradient(135deg,#1e3460,#2e4a78,#1a2f5a)}
-.room-3 .room-img::before{background:linear-gradient(135deg,#0f1f3d,#243c66,#162548)}
-.room-4 .room-img::before{background:linear-gradient(135deg,#162548,#1e3460,#0f1f3d)}
-.room-img-icon{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;color:rgba(201,168,76,.25);font-size:4rem}
+.room-img img{width:100%;height:100%;object-fit:cover;display:block}
+.room-img::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,transparent 60%,rgba(10,22,40,.15) 100%)}
 .room-img .room-tag{position:absolute;top:16px;right:16px;z-index:3;background:var(--gold);color:var(--navy);font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;font-weight:600}
 .room-body{padding:28px}
 .room-body h3{font-size:1.5rem;color:var(--navy);margin-bottom:4px}
@@ -83,8 +77,7 @@ section{padding:100px 48px}
 .about{background:var(--bg)}
 .about-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
 .about-visual{height:400px;border-radius:12px;position:relative;overflow:hidden}
-.about-visual::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#0f1f3d,#1a2f5a,#243c66,#1a2f5a);border-radius:12px}
-.about-visual::after{content:'★';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(201,168,76,.12);font-size:8rem}
+.about-visual::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80') center/cover no-repeat;border-radius:12px}
 .about-text p{font-size:1.05rem;color:#444;line-height:1.8;margin-bottom:20px}
 .about-stats{display:flex;gap:40px;margin-top:32px}
 .about-stat{text-align:center}
@@ -197,6 +190,7 @@ footer{background:#0a1628;padding:60px 48px 32px;color:rgba(255,255,255,.5)}
 
 <!-- HERO -->
 <section class="hero">
+  <img class="hero-bg" src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=1920&q=80" alt="Barcelona Gothic Quarter">
   <div class="hero-pattern"></div>
   <div class="hero-content">
     <div class="hero-stars">★ ★ ★ ★</div>
@@ -225,7 +219,7 @@ footer{background:#0a1628;padding:60px 48px 32px;color:rgba(255,255,255,.5)}
   <div class="rooms-grid">
     <div class="room-card room-1">
       <div class="room-img">
-        <div class="room-img-icon">♦</div>
+        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80" alt="Classic Room" loading="lazy">
       </div>
       <div class="room-body">
         <h3>Classic Room</h3>
@@ -239,7 +233,7 @@ footer{background:#0a1628;padding:60px 48px 32px;color:rgba(255,255,255,.5)}
     </div>
     <div class="room-card room-2">
       <div class="room-img">
-        <div class="room-img-icon">◆</div>
+        <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=600&q=80" alt="Superior Room" loading="lazy">
         <div class="room-tag">Popular</div>
       </div>
       <div class="room-body">
@@ -254,7 +248,7 @@ footer{background:#0a1628;padding:60px 48px 32px;color:rgba(255,255,255,.5)}
     </div>
     <div class="room-card room-3">
       <div class="room-img">
-        <div class="room-img-icon">✦</div>
+        <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=600&q=80" alt="Deluxe Room" loading="lazy">
         <div class="room-tag">Exclusive</div>
       </div>
       <div class="room-body">
@@ -269,7 +263,7 @@ footer{background:#0a1628;padding:60px 48px 32px;color:rgba(255,255,255,.5)}
     </div>
     <div class="room-card room-4">
       <div class="room-img">
-        <div class="room-img-icon">❖</div>
+        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80" alt="Junior Suite" loading="lazy">
         <div class="room-tag">Suite</div>
       </div>
       <div class="room-body">
