@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel Mirall Barcelona — Where Barcelona Reflects Itself</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0f1f3d;--gold:#c9a84c;--bg:#faf8f5;--text:#1a1a1a;
+  --gold-light:#f5edda;--navy-light:#1a2f5a;--shadow:0 8px 32px rgba(15,31,61,.18);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--bg);overflow-x:hidden;line-height:1.6}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1.2}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;width:100%;z-index:100;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;transition:background .4s,padding .3s}
+nav.scrolled{background:rgba(15,31,61,.97);padding:14px 48px;backdrop-filter:blur(8px)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:#fff;letter-spacing:2px;text-transform:uppercase}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.85rem;letter-spacing:1.2px;text-transform:uppercase;transition:color .3s;font-weight:500}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:10px 28px;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:'DM Sans',sans-serif;font-weight:500}
+.nav-cta:hover{background:var(--gold);color:var(--navy)}
+
+/* ─── HERO ─── */
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#0a1628 0%,#162548 25%,#1a2f5a 50%,#0f1f3d 75%,#0a1628 100%);z-index:0}
+.hero::after{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse 80% 60% at 20% 80%,rgba(201,168,76,.12) 0%,transparent 60%),
+  radial-gradient(ellipse 60% 50% at 80% 20%,rgba(201,168,76,.08) 0%,transparent 50%),
+  radial-gradient(ellipse 100% 100% at 50% 50%,rgba(255,255,255,.02) 0%,transparent 70%);
+z-index:1}
+.hero-pattern{position:absolute;inset:0;z-index:1;opacity:.04;background-image:
+  repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(255,255,255,.5) 40px,rgba(255,255,255,.5) 41px),
+  repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(255,255,255,.5) 40px,rgba(255,255,255,.5) 41px)}
+.hero-content{position:relative;z-index:2;max-width:800px;padding:0 24px}
+.hero-stars{letter-spacing:12px;color:var(--gold);font-size:1rem;margin-bottom:20px;opacity:.9}
+.hero h1{font-size:clamp(2.8rem,6vw,5rem);color:#fff;font-weight:300;letter-spacing:4px;margin-bottom:8px;text-transform:uppercase}
+.hero h1 span{display:block;font-size:clamp(1rem,2vw,1.35rem);font-family:'DM Sans',sans-serif;font-weight:300;letter-spacing:8px;color:var(--gold);margin-top:16px;text-transform:uppercase}
+.hero-tagline{font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,2vw,1.4rem);color:rgba(255,255,255,.7);font-style:italic;font-weight:300;margin:24px 0 40px}
+.hero-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn{padding:16px 40px;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .35s;font-family:'DM Sans',sans-serif;font-weight:500;border:none;text-decoration:none;display:inline-block}
+.btn-gold{background:var(--gold);color:var(--navy)}.btn-gold:hover{background:#d4b35c;transform:translateY(-2px);box-shadow:0 6px 24px rgba(201,168,76,.35)}
+.btn-outline{background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff}.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:2;color:rgba(255,255,255,.4);font-size:.7rem;letter-spacing:3px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px;animation:float 3s ease-in-out infinite}
+.hero-scroll .line{width:1px;height:40px;background:linear-gradient(to bottom,rgba(201,168,76,.6),transparent)}
+@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+/* ─── SECTION COMMON ─── */
+section{padding:100px 48px}
+.section-label{font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:500}
+.section-title{font-size:clamp(2rem,4vw,3rem);color:var(--navy);margin-bottom:16px}
+.section-divider{width:60px;height:2px;background:var(--gold);margin-bottom:40px}
+
+/* ─── ROOMS ─── */
+.rooms{background:#fff}
+.rooms-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;max-width:1200px;margin:0 auto}
+.room-card{background:var(--bg);border-radius:12px;overflow:hidden;transition:transform .35s,box-shadow .35s;cursor:pointer}
+.room-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.room-img{height:220px;position:relative;overflow:hidden}
+.room-img::before{content:'';position:absolute;inset:0;z-index:1}
+.room-1 .room-img::before{background:linear-gradient(135deg,#1a2f5a,#2a4070,#1a2f5a)}
+.room-2 .room-img::before{background:linear-gradient(135deg,#1e3460,#2e4a78,#1a2f5a)}
+.room-3 .room-img::before{background:linear-gradient(135deg,#0f1f3d,#243c66,#162548)}
+.room-4 .room-img::before{background:linear-gradient(135deg,#162548,#1e3460,#0f1f3d)}
+.room-img-icon{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;color:rgba(201,168,76,.25);font-size:4rem}
+.room-img .room-tag{position:absolute;top:16px;right:16px;z-index:3;background:var(--gold);color:var(--navy);font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;font-weight:600}
+.room-body{padding:28px}
+.room-body h3{font-size:1.5rem;color:var(--navy);margin-bottom:4px}
+.room-body .room-size{font-size:.8rem;color:#888;margin-bottom:12px}
+.room-body p{font-size:.9rem;color:#555;margin-bottom:16px;line-height:1.6}
+.room-footer{display:flex;align-items:center;justify-content:space-between}
+.room-price{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--navy);font-weight:600}
+.room-price span{font-size:.8rem;font-family:'DM Sans',sans-serif;color:#888;font-weight:400}
+.room-book{background:var(--navy);color:var(--gold);padding:10px 20px;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;border:none;cursor:pointer;transition:all .3s;font-family:'DM Sans',sans-serif;font-weight:500}
+.room-book:hover{background:var(--gold);color:var(--navy)}
+
+/* ─── ABOUT ─── */
+.about{background:var(--bg)}
+.about-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.about-visual{height:400px;border-radius:12px;position:relative;overflow:hidden}
+.about-visual::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#0f1f3d,#1a2f5a,#243c66,#1a2f5a);border-radius:12px}
+.about-visual::after{content:'★';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(201,168,76,.12);font-size:8rem}
+.about-text p{font-size:1.05rem;color:#444;line-height:1.8;margin-bottom:20px}
+.about-stats{display:flex;gap:40px;margin-top:32px}
+.about-stat{text-align:center}
+.about-stat .num{font-family:'Cormorant Garamond',serif;font-size:2.4rem;color:var(--navy);font-weight:600;display:block}
+.about-stat .label{font-size:.75rem;color:#888;letter-spacing:1px;text-transform:uppercase}
+
+/* ─── FACILITIES ─── */
+.facilities{background:var(--navy);text-align:center}
+.facilities .section-label{color:var(--gold)}
+.facilities .section-title{color:#fff}
+.facilities .section-divider{margin:0 auto 48px}
+.facilities-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:40px;max-width:1000px;margin:0 auto}
+.facility{display:flex;flex-direction:column;align-items:center;gap:12px;min-width:120px}
+.facility-icon{width:64px;height:64px;border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--gold);transition:all .35s}
+.facility:hover .facility-icon{background:rgba(201,168,76,.1);border-color:var(--gold);transform:scale(1.1)}
+.facility span{color:rgba(255,255,255,.75);font-size:.8rem;letter-spacing:1px}
+
+/* ─── FOOTER ─── */
+footer{background:#0a1628;padding:60px 48px 32px;color:rgba(255,255,255,.5)}
+.footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;max-width:1200px;margin:0 auto 40px}
+.footer-brand .nav-logo{font-size:1.3rem;margin-bottom:12px;display:block}
+.footer-brand p{font-size:.85rem;max-width:300px;line-height:1.7}
+.footer-col h4{color:var(--gold);font-family:'DM Sans',sans-serif;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;font-weight:600}
+.footer-col a{display:block;color:rgba(255,255,255,.5);text-decoration:none;font-size:.85rem;margin-bottom:10px;transition:color .3s}
+.footer-col a:hover{color:var(--gold)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;text-align:center;font-size:.75rem;max-width:1200px;margin:0 auto}
+
+/* ─── CHAT WIDGET ─── */
+.chat-trigger{position:fixed;bottom:28px;right:28px;z-index:1000;width:60px;height:60px;border-radius:50%;background:var(--navy);border:2px solid rgba(201,168,76,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(15,31,61,.35);transition:all .3s}
+.chat-trigger:hover{transform:scale(1.08);box-shadow:0 6px 28px rgba(15,31,61,.45);border-color:var(--gold)}
+.chat-trigger svg{width:26px;height:26px;fill:var(--gold)}
+.chat-trigger.pulse::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--gold);animation:pulse-ring 3s ease-out infinite;opacity:0}
+@keyframes pulse-ring{0%{transform:scale(.9);opacity:.6}100%{transform:scale(1.4);opacity:0}}
+.chat-trigger .badge{position:absolute;top:-2px;right:-2px;width:18px;height:18px;background:#e74c3c;border-radius:50%;font-size:.6rem;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;opacity:0;transform:scale(0);transition:all .3s}
+.chat-trigger .badge.show{opacity:1;transform:scale(1)}
+
+.chat-window{position:fixed;bottom:100px;right:28px;z-index:1001;width:380px;height:540px;background:#fff;border-radius:16px;box-shadow:0 12px 48px rgba(15,31,61,.22);display:flex;flex-direction:column;overflow:hidden;transform:scale(0) translateY(20px);opacity:0;transform-origin:bottom right;transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .25s;pointer-events:none}
+.chat-window.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
+
+.chat-header{background:var(--navy);padding:18px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.chat-avatar{width:38px;height:38px;border-radius:50%;background:rgba(201,168,76,.15);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--gold);flex-shrink:0;border:1px solid rgba(201,168,76,.3)}
+.chat-header-info h4{color:#fff;font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:500}
+.chat-header-info span{color:rgba(255,255,255,.5);font-size:.7rem;display:flex;align-items:center;gap:4px}
+.chat-header-info .online-dot{width:6px;height:6px;border-radius:50%;background:#4ecb71;display:inline-block}
+.chat-close{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.5);font-size:1.2rem;cursor:pointer;padding:4px;transition:color .3s;line-height:1}
+.chat-close:hover{color:#fff}
+
+.chat-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:4px;scroll-behavior:smooth;background:#fafafa}
+.chat-body::-webkit-scrollbar{width:4px}
+.chat-body::-webkit-scrollbar-thumb{background:rgba(15,31,61,.15);border-radius:4px}
+
+.msg{max-width:82%;padding:12px 16px;font-size:.88rem;line-height:1.55;animation:msg-in .35s ease-out both;position:relative}
+@keyframes msg-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.msg-bot{background:var(--navy);color:#fff;border-radius:14px 14px 14px 4px;align-self:flex-start}
+.msg-user{background:var(--gold);color:var(--navy);border-radius:14px 14px 4px 14px;align-self:flex-end;font-weight:500}
+.msg-time{font-size:.6rem;color:#aaa;margin-top:2px;padding:0 4px}
+.msg-time.right{text-align:right}
+
+.typing{display:flex;gap:4px;padding:12px 18px;align-self:flex-start;background:var(--navy);border-radius:14px 14px 14px 4px}
+.typing span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.4);animation:typing-bounce .6s ease-in-out infinite}
+.typing span:nth-child(2){animation-delay:.15s}
+.typing span:nth-child(3){animation-delay:.3s}
+@keyframes typing-bounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
+
+.quick-replies{display:flex;flex-wrap:wrap;gap:6px;padding:4px 0 8px;animation:msg-in .4s ease-out both}
+.chip{background:transparent;border:1.5px solid var(--gold);color:var(--navy);padding:7px 14px;border-radius:20px;font-size:.76rem;cursor:pointer;transition:all .25s;font-family:'DM Sans',sans-serif;white-space:nowrap;font-weight:500}
+.chip:hover{background:var(--gold);color:var(--navy);transform:translateY(-1px)}
+
+.chat-input-area{padding:12px 16px;border-top:1px solid #eee;display:flex;gap:8px;background:#fff;flex-shrink:0}
+.chat-input{flex:1;border:1.5px solid #e0ddd8;border-radius:24px;padding:10px 18px;font-size:.85rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .3s;background:transparent;color:var(--text)}
+.chat-input:focus{border-color:var(--gold)}
+.chat-input::placeholder{color:#aaa}
+.chat-send{width:40px;height:40px;border-radius:50%;background:var(--navy);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0}
+.chat-send:hover{background:var(--gold)}
+.chat-send svg{width:16px;height:16px;fill:var(--gold);transition:fill .3s}
+.chat-send:hover svg{fill:var(--navy)}
+
+.chat-footer{text-align:center;padding:6px;background:#fff;font-size:.6rem;color:#bbb;letter-spacing:.5px;flex-shrink:0}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:768px){
+  nav{padding:16px 20px}nav.scrolled{padding:12px 20px}
+  .nav-links{display:none}
+  section{padding:60px 20px}
+  .about-wrap{grid-template-columns:1fr;gap:32px}
+  .about-visual{height:260px}
+  .chat-window{width:calc(100vw - 24px);right:12px;bottom:90px;height:70vh}
+  .hero h1{letter-spacing:2px}
+  .rooms-grid{grid-template-columns:1fr}
+  .footer-top{flex-direction:column}
+}
+@media(max-width:480px){
+  .chat-window{width:100vw;right:0;bottom:0;height:100vh;border-radius:0}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-logo">Mirall <span>Barcelona</span></div>
+  <ul class="nav-links">
+    <li><a href="#rooms">Rooms</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#facilities">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta">Book Now</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-stars">★ ★ ★ ★</div>
+    <h1>Hotel Mirall
+      <span>Where Barcelona Reflects Itself</span>
+    </h1>
+    <p class="hero-tagline">"A 32-room sanctuary in the heart of the Gothic Quarter"</p>
+    <div class="hero-buttons">
+      <a href="#" class="btn btn-gold">Book Your Stay</a>
+      <a href="#rooms" class="btn btn-outline">Explore Rooms</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="line"></div>
+  </div>
+</section>
+
+<!-- ROOMS -->
+<section class="rooms" id="rooms">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="section-label">Accommodation</div>
+    <h2 class="section-title">Our Rooms & Suites</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="rooms-grid">
+    <div class="room-card room-1">
+      <div class="room-img">
+        <div class="room-img-icon">♦</div>
+      </div>
+      <div class="room-body">
+        <h3>Classic Room</h3>
+        <div class="room-size">18m² · City View · Queen Bed</div>
+        <p>Elegant simplicity with warm tones, premium linens, and a view of Barcelona's charming streets.</p>
+        <div class="room-footer">
+          <div class="room-price">€120 <span>/ night</span></div>
+          <button class="room-book">Reserve</button>
+        </div>
+      </div>
+    </div>
+    <div class="room-card room-2">
+      <div class="room-img">
+        <div class="room-img-icon">◆</div>
+        <div class="room-tag">Popular</div>
+      </div>
+      <div class="room-body">
+        <h3>Superior Room</h3>
+        <div class="room-size">24m² · Courtyard View · King Bed</div>
+        <p>Spacious retreat overlooking our tranquil courtyard, featuring a luxurious king bed and rainfall shower.</p>
+        <div class="room-footer">
+          <div class="room-price">€160 <span>/ night</span></div>
+          <button class="room-book">Reserve</button>
+        </div>
+      </div>
+    </div>
+    <div class="room-card room-3">
+      <div class="room-img">
+        <div class="room-img-icon">✦</div>
+        <div class="room-tag">Exclusive</div>
+      </div>
+      <div class="room-body">
+        <h3>Deluxe Room</h3>
+        <div class="room-size">30m² · Gothic Quarter View · King Bed & Bathtub</div>
+        <p>Indulge in stunning views of the Gothic Quarter with a freestanding bathtub and premium amenities.</p>
+        <div class="room-footer">
+          <div class="room-price">€210 <span>/ night</span></div>
+          <button class="room-book">Reserve</button>
+        </div>
+      </div>
+    </div>
+    <div class="room-card room-4">
+      <div class="room-img">
+        <div class="room-img-icon">❖</div>
+        <div class="room-tag">Suite</div>
+      </div>
+      <div class="room-body">
+        <h3>Junior Suite</h3>
+        <div class="room-size">42m² · Panoramic Terrace · Living Area · King Bed</div>
+        <p>Our crown jewel — a private terrace with panoramic views, a separate living area, and impeccable design.</p>
+        <div class="room-footer">
+          <div class="room-price">€290 <span>/ night</span></div>
+          <button class="room-book">Reserve</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-wrap">
+    <div class="about-visual"></div>
+    <div class="about-text">
+      <div class="section-label">Our Story</div>
+      <h2 class="section-title">A Reflection of Barcelona</h2>
+      <div class="section-divider"></div>
+      <p>Nestled in the winding streets of the Gothic Quarter, Hotel Mirall occupies a meticulously restored 19th-century palace. Each of our 32 rooms is a curated blend of Catalan heritage and contemporary design — where exposed stone arches meet sleek modern furnishings.</p>
+      <p>From our celebrated rooftop terrace with panoramic views of the Cathedral to our intimate spa tucked within the building's original cellars, every corner of Hotel Mirall tells a story. We don't just host guests — we create memories.</p>
+      <div class="about-stats">
+        <div class="about-stat"><span class="num">32</span><span class="label">Rooms</span></div>
+        <div class="about-stat"><span class="num">4</span><span class="label">Stars</span></div>
+        <div class="about-stat"><span class="num">1887</span><span class="label">Building Est.</span></div>
+        <div class="about-stat"><span class="num">9.2</span><span class="label">Guest Rating</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FACILITIES -->
+<section class="facilities" id="facilities">
+  <div class="section-label">Experience</div>
+  <h2 class="section-title">Hotel Facilities</h2>
+  <div class="section-divider"></div>
+  <div class="facilities-grid">
+    <div class="facility">
+      <div class="facility-icon">⚡</div>
+      <span>Free WiFi<br>200 Mbps</span>
+    </div>
+    <div class="facility">
+      <div class="facility-icon">🍸</div>
+      <span>Rooftop<br>Bar</span>
+    </div>
+    <div class="facility">
+      <div class="facility-icon">✿</div>
+      <span>Spa &<br>Wellness</span>
+    </div>
+    <div class="facility">
+      <div class="facility-icon">◎</div>
+      <span>Fitness<br>Room</span>
+    </div>
+    <div class="facility">
+      <div class="facility-icon">★</div>
+      <span>24/7<br>Concierge</span>
+    </div>
+    <div class="facility">
+      <div class="facility-icon">✈</div>
+      <span>Airport<br>Transfer</span>
+    </div>
+    <div class="facility">
+      <div class="facility-icon">♨</div>
+      <span>Restaurant<br>& Bar</span>
+    </div>
+    <div class="facility">
+      <div class="facility-icon">☾</div>
+      <span>Room<br>Service</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="nav-logo">Mirall <span>Barcelona</span></div>
+      <p>A 4-star boutique hotel in the heart of Barcelona's Gothic Quarter. Where history meets modern luxury.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="#">+34 93 XXX XX XX</a>
+      <a href="#">reservations@hotelmirall.com</a>
+      <a href="#">Carrer dels Miralls, Gothic Quarter</a>
+      <a href="#">08002 Barcelona, Spain</a>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="#rooms">Rooms & Suites</a>
+      <a href="#">Restaurant</a>
+      <a href="#">Rooftop Bar</a>
+      <a href="#">Spa & Wellness</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Hotel Mirall Barcelona. All rights reserved. — <span style="color:var(--gold)">Where Barcelona Reflects Itself</span>
+  </div>
+</footer>
+
+<!-- CHAT WIDGET -->
+<button class="chat-trigger pulse" id="chatTrigger" aria-label="Open chat">
+  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 5.92 2 10.67c0 2.84 1.66 5.35 4.2 6.93L5 22l4.47-2.06c.82.17 1.67.27 2.53.27 5.52 0 10-3.92 10-8.54C22 5.92 17.52 2 12 2zm0 15.08c-.75 0-1.49-.09-2.2-.26l-.53-.13-2.72 1.25.7-2.4-.42-.32C5.17 14.01 4 12.4 4 10.67 4 7.07 7.58 4 12 4s8 3.07 8 6.67-3.58 6.41-8 6.41z"/></svg>
+  <div class="badge" id="chatBadge">1</div>
+</button>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-avatar">✦</div>
+    <div class="chat-header-info">
+      <h4>Mirall Concierge</h4>
+      <span><span class="online-dot"></span> Online — Typically replies instantly</span>
+    </div>
+    <button class="chat-close" id="chatClose">✕</button>
+  </div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chat-input-area">
+    <input class="chat-input" id="chatInput" type="text" placeholder="Type your message..." autocomplete="off">
+    <button class="chat-send" id="chatSend">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+  <div class="chat-footer">Powered by <strong style="color:var(--navy)">Mirall AI</strong></div>
+</div>
+
+<script>
+// ─── NAV SCROLL ───
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ─── CHAT ENGINE ───
+const trigger = document.getElementById('chatTrigger');
+const win = document.getElementById('chatWindow');
+const body = document.getElementById('chatBody');
+const input = document.getElementById('chatInput');
+const sendBtn = document.getElementById('chatSend');
+const closeBtn = document.getElementById('chatClose');
+const badge = document.getElementById('chatBadge');
+
+let isOpen = false;
+let lang = 'en';
+let greeted = false;
+
+function toggleChat() {
+  isOpen = !isOpen;
+  win.classList.toggle('open', isOpen);
+  trigger.classList.toggle('pulse', !isOpen);
+  if (isOpen) {
+    badge.classList.remove('show');
+    input.focus();
+  }
+}
+
+trigger.addEventListener('click', toggleChat);
+closeBtn.addEventListener('click', toggleChat);
+
+function now() {
+  return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function addMsg(text, who, skipAnim) {
+  const wrap = document.createElement('div');
+  const msg = document.createElement('div');
+  msg.className = `msg msg-${who}`;
+  msg.innerHTML = text;
+  if (skipAnim) msg.style.animation = 'none';
+  wrap.appendChild(msg);
+  const time = document.createElement('div');
+  time.className = `msg-time ${who === 'user' ? 'right' : ''}`;
+  time.textContent = now();
+  wrap.appendChild(time);
+  body.appendChild(wrap);
+  body.scrollTop = body.scrollHeight;
+}
+
+function showTyping() {
+  const t = document.createElement('div');
+  t.className = 'typing';
+  t.id = 'typing';
+  t.innerHTML = '<span></span><span></span><span></span>';
+  body.appendChild(t);
+  body.scrollTop = body.scrollHeight;
+}
+
+function hideTyping() {
+  const t = document.getElementById('typing');
+  if (t) t.remove();
+}
+
+function addChips(chips) {
+  const wrap = document.createElement('div');
+  wrap.className = 'quick-replies';
+  chips.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'chip';
+    btn.textContent = c;
+    btn.style.animationDelay = `${i * 0.08}s`;
+    btn.addEventListener('click', () => {
+      handleUserMsg(c);
+      // Remove all chip containers
+      body.querySelectorAll('.quick-replies').forEach(q => q.remove());
+    });
+    wrap.appendChild(btn);
+  });
+  body.appendChild(wrap);
+  body.scrollTop = body.scrollHeight;
+}
+
+function botReply(text, chips) {
+  showTyping();
+  setTimeout(() => {
+    hideTyping();
+    addMsg(text, 'bot');
+    if (chips && chips.length) setTimeout(() => addChips(chips), 300);
+  }, 800);
+}
+
+// ─── LANGUAGE DETECTION ───
+function detectLang(text) {
+  const t = text.toLowerCase();
+  const es = ['hola','buenos','habitación','desayuno','precio','salida','llegada','cancelar','aparcamiento','aeropuerto','perro','factura','equipaje','servicio','restaurante','comer','gracias','por favor','cumpleaños','aniversario','tarde','temprano','disponible','cuánto','dónde','cuándo','qué'];
+  const tr = ['merhaba','oda','kahvaltı','fiyat','giriş','çıkış','iptal','otopark','havalimanı','evcil','bagaj','fatura','yemek','restoran','teşekkür','lütfen','erken','geç','ne','nerede','nasıl','kadar','doğum','günü'];
+  if (es.some(w => t.includes(w))) return 'es';
+  if (tr.some(w => t.includes(w))) return 'tr';
+  return 'en';
+}
+
+// ─── FOLLOW-UP ───
+const followUp = {
+  en: '<br><br>Is there anything else I can help you with? 😊',
+  es: '<br><br>¿Hay algo más en lo que pueda ayudarle? 😊',
+  tr: '<br><br>Başka yardımcı olabileceğim bir konu var mı? 😊'
+};
+
+// ─── RESPONSES ───
+const responses = {
+  checkin: {
+    en: `<strong>Check-in & Check-out</strong><br><br>🕒 <strong>Standard check-in:</strong> 3:00 PM<br>🕛 <strong>Check-out:</strong> 12:00 PM<br><br>⏰ <strong>Early check-in:</strong> available from 11:00 AM — €25 (subject to availability)<br>⏰ <strong>Late check-out:</strong><br>• Until 3:00 PM — €30<br>• Until 6:00 PM — €50<br><br>🧳 Complimentary luggage storage is available 24/7.`,
+    es: `<strong>Check-in y Check-out</strong><br><br>🕒 <strong>Check-in estándar:</strong> 15:00 h<br>🕛 <strong>Check-out:</strong> 12:00 h<br><br>⏰ <strong>Check-in anticipado:</strong> desde las 11:00 h — 25 € (sujeto a disponibilidad)<br>⏰ <strong>Check-out tardío:</strong><br>• Hasta las 15:00 h — 30 €<br>• Hasta las 18:00 h — 50 €<br><br>🧳 Custodia de equipaje gratuita las 24 horas.`,
+    tr: `<strong>Giriş & Çıkış</strong><br><br>🕒 <strong>Standart giriş:</strong> 15:00<br>🕛 <strong>Çıkış:</strong> 12:00<br><br>⏰ <strong>Erken giriş:</strong> 11:00'den itibaren — €25 (müsaitliğe bağlı)<br>⏰ <strong>Geç çıkış:</strong><br>• 15:00'e kadar — €30<br>• 18:00'e kadar — €50<br><br>🧳 Ücretsiz 7/24 bagaj muhafazası mevcuttur.`
+  },
+  rooms: {
+    en: `<strong>Our Rooms & Rates</strong><br><br>🏨 <strong>Classic Room</strong> (18m²) — from <strong>€120</strong>/night<br>City view, queen bed<br><br>🏨 <strong>Superior Room</strong> (24m²) — from <strong>€160</strong>/night<br>Courtyard view, king bed<br><br>🏨 <strong>Deluxe Room</strong> (30m²) — from <strong>€210</strong>/night<br>Gothic Quarter view, king bed, bathtub<br><br>🏨 <strong>Junior Suite</strong> (42m²) — from <strong>€290</strong>/night<br>Panoramic terrace, living area, king bed<br><br>🛏 Baby cot: €15/night | Extra bed (Superior+): €40/night`,
+    es: `<strong>Nuestras Habitaciones y Tarifas</strong><br><br>🏨 <strong>Classic Room</strong> (18m²) — desde <strong>120 €</strong>/noche<br>Vista ciudad, cama queen<br><br>🏨 <strong>Superior Room</strong> (24m²) — desde <strong>160 €</strong>/noche<br>Vista patio, cama king<br><br>🏨 <strong>Deluxe Room</strong> (30m²) — desde <strong>210 €</strong>/noche<br>Vista Barrio Gótico, cama king, bañera<br><br>🏨 <strong>Junior Suite</strong> (42m²) — desde <strong>290 €</strong>/noche<br>Terraza panorámica, salón, cama king<br><br>🛏 Cuna: 15 €/noche | Cama supletoria (Superior+): 40 €/noche`,
+    tr: `<strong>Odalarımız ve Fiyatlarımız</strong><br><br>🏨 <strong>Classic Oda</strong> (18m²) — <strong>€120</strong>/gece'den itibaren<br>Şehir manzarası, çift kişilik yatak<br><br>🏨 <strong>Superior Oda</strong> (24m²) — <strong>€160</strong>/gece'den itibaren<br>Avlu manzarası, king yatak<br><br>🏨 <strong>Deluxe Oda</strong> (30m²) — <strong>€210</strong>/gece'den itibaren<br>Gotik Mahalle manzarası, king yatak, küvet<br><br>🏨 <strong>Junior Süit</strong> (42m²) — <strong>€290</strong>/gece'den itibaren<br>Panoramik teras, oturma alanı, king yatak<br><br>🛏 Bebek yatağı: €15/gece | İlave yatak (Superior+): €40/gece`
+  },
+  breakfast: {
+    en: `<strong>Breakfast</strong><br><br>🍳 Served daily <strong>7:00 AM – 10:30 AM</strong><br>☀️ Weekends extended until <strong>11:00 AM</strong><br><br>🥐 Buffet-style with Mediterranean and continental options — fresh pastries, local cured meats, seasonal fruits, and more.<br><br>💰 <strong>€18/person</strong> (included in some rates)<br>🛎 In-room breakfast available for +€8 surcharge`,
+    es: `<strong>Desayuno</strong><br><br>🍳 Servido diariamente de <strong>7:00 a 10:30</strong><br>☀️ Fines de semana hasta las <strong>11:00</strong><br><br>🥐 Buffet mediterráneo y continental — bollería fresca, embutidos locales, frutas de temporada y mucho más.<br><br>💰 <strong>18 €/persona</strong> (incluido en algunas tarifas)<br>🛎 Desayuno en habitación disponible por +8 € de suplemento`,
+    tr: `<strong>Kahvaltı</strong><br><br>🍳 Her gün <strong>07:00 – 10:30</strong> arası servis edilir<br>☀️ Hafta sonları <strong>11:00</strong>'e kadar uzatılır<br><br>🥐 Akdeniz ve kontinental seçeneklerle açık büfe — taze hamur işleri, yerel şarküteri, mevsim meyveleri ve daha fazlası.<br><br>💰 <strong>€18/kişi</strong> (bazı tarifelere dahil)<br>🛎 Oda servisi kahvaltı +€8 ek ücretle mevcuttur`
+  },
+  airport: {
+    en: `<strong>Airport Transfer</strong><br><br>✈️ <strong>Private transfer</strong> from/to Barcelona El Prat Airport:<br>• One way: <strong>€45</strong><br>• Return: <strong>€80</strong><br><br>⏱ Travel time: approx. 30–40 minutes<br>📋 Must be booked at least <strong>24 hours in advance</strong><br><br>🚌 <strong>Budget option:</strong> Aerobus stop is a 5-minute walk from the hotel (€6.75 one way)`,
+    es: `<strong>Transfer al Aeropuerto</strong><br><br>✈️ <strong>Transfer privado</strong> desde/hacia el Aeropuerto de Barcelona El Prat:<br>• Ida: <strong>45 €</strong><br>• Ida y vuelta: <strong>80 €</strong><br><br>⏱ Tiempo de viaje: aprox. 30–40 minutos<br>📋 Debe reservarse con al menos <strong>24 horas de antelación</strong><br><br>🚌 <strong>Alternativa económica:</strong> Parada del Aerobús a 5 minutos a pie del hotel (6,75 € por trayecto)`,
+    tr: `<strong>Havalimanı Transferi</strong><br><br>✈️ <strong>Özel transfer</strong> — Barcelona El Prat Havalimanı:<br>• Tek yön: <strong>€45</strong><br>• Gidiş-dönüş: <strong>€80</strong><br><br>⏱ Yolculuk süresi: yaklaşık 30–40 dakika<br>📋 En az <strong>24 saat önceden</strong> rezervasyon gereklidir<br><br>🚌 <strong>Ekonomik seçenek:</strong> Aerobus durağı otelden 5 dakika yürüme mesafesinde (tek yön €6,75)`
+  },
+  parking: {
+    en: `<strong>Parking</strong><br><br>🅿️ Due to Gothic Quarter restrictions, we do not have on-site parking.<br><br>🏢 <strong>Partner garage</strong> located just 150m away:<br>• <strong>€28/day</strong><br>• The hotel can reserve a spot in advance<br>• ⚡ Electric vehicle charging available<br><br>Simply let us know your arrival time and we'll take care of the reservation!`,
+    es: `<strong>Aparcamiento</strong><br><br>🅿️ Debido a las restricciones del Barrio Gótico, no disponemos de parking propio.<br><br>🏢 <strong>Garaje colaborador</strong> a solo 150 m:<br>• <strong>28 €/día</strong><br>• El hotel puede reservar plaza con antelación<br>• ⚡ Carga de vehículos eléctricos disponible<br><br>¡Solo indíquenos su hora de llegada y nos encargamos de la reserva!`,
+    tr: `<strong>Otopark</strong><br><br>🅿️ Gotik Mahalle kısıtlamaları nedeniyle otel bünyesinde otopark bulunmamaktadır.<br><br>🏢 <strong>Anlaşmalı garaj</strong> sadece 150m uzaklıkta:<br>• <strong>€28/gün</strong><br>• Otel önceden yer ayırtabilir<br>• ⚡ Elektrikli araç şarjı mevcuttur<br><br>Varış saatinizi bildirin, rezervasyonu biz halledelim!`
+  },
+  wifi: {
+    en: `<strong>WiFi Information</strong><br><br>📶 <strong>Free high-speed WiFi</strong> throughout the entire hotel<br><br>🌐 Network: <strong>MirallGuest</strong><br>🔑 Password: provided at check-in on your welcome card<br>⚡ Speed: up to <strong>200 Mbps</strong><br><br>Perfect for streaming, video calls, and remote work!`,
+    es: `<strong>Información WiFi</strong><br><br>📶 <strong>WiFi gratuito de alta velocidad</strong> en todo el hotel<br><br>🌐 Red: <strong>MirallGuest</strong><br>🔑 Contraseña: se proporciona en el check-in en la tarjeta de bienvenida<br>⚡ Velocidad: hasta <strong>200 Mbps</strong><br><br>¡Perfecto para streaming, videollamadas y trabajo remoto!`,
+    tr: `<strong>WiFi Bilgisi</strong><br><br>📶 Otelin her yerinde <strong>ücretsiz yüksek hızlı WiFi</strong><br><br>🌐 Ağ: <strong>MirallGuest</strong><br>🔑 Şifre: giriş sırasında hoş geldiniz kartınızda verilir<br>⚡ Hız: <strong>200 Mbps</strong>'ye kadar<br><br>Yayın izleme, görüntülü arama ve uzaktan çalışma için mükemmel!`
+  },
+  cancel: {
+    en: `<strong>Cancellation Policy</strong><br><br>✅ <strong>Free cancellation</strong> up to 48 hours before arrival<br>⚠️ Within 48 hours: 1 night charge applies<br>❌ No-show: full stay will be charged<br><br>💡 <strong>Tip:</strong> Non-refundable rates are available at a <strong>15% discount</strong> — perfect if your plans are confirmed!`,
+    es: `<strong>Política de Cancelación</strong><br><br>✅ <strong>Cancelación gratuita</strong> hasta 48 horas antes de la llegada<br>⚠️ Dentro de las 48 horas: se cobra 1 noche<br>❌ No-show: se cobra la estancia completa<br><br>💡 <strong>Consejo:</strong> Las tarifas no reembolsables tienen un <strong>15% de descuento</strong> — ¡ideales si tiene planes confirmados!`,
+    tr: `<strong>İptal Politikası</strong><br><br>✅ Varıştan <strong>48 saat öncesine</strong> kadar ücretsiz iptal<br>⚠️ 48 saat içinde: 1 gecelik ücret alınır<br>❌ Gelmeme durumu: tam konaklama ücreti tahsil edilir<br><br>💡 <strong>İpucu:</strong> İade edilmeyen tarifeler <strong>%15 indirimli</strong> — planlarınız kesinse ideal!`
+  },
+  pet: {
+    en: `<strong>Pet Policy</strong><br><br>🐾 Small pets are welcome (under 10kg): <strong>€20/night</strong><br>🛏 Pet bed and water bowl provided on request<br><br>We love furry guests! Please inform us in advance so we can prepare your room.`,
+    es: `<strong>Política de Mascotas</strong><br><br>🐾 Se admiten mascotas pequeñas (menos de 10 kg): <strong>20 €/noche</strong><br>🛏 Cama y cuenco para mascotas bajo petición<br><br>¡Nos encantan los huéspedes peludos! Infórmenos con antelación para preparar su habitación.`,
+    tr: `<strong>Evcil Hayvan Politikası</strong><br><br>🐾 Küçük evcil hayvanlar kabul edilir (10 kg altı): <strong>€20/gece</strong><br>🛏 Talep üzerine evcil hayvan yatağı ve su kabı sağlanır<br><br>Tüylü misafirlerimizi seviyoruz! Odanızı hazırlayabilmemiz için lütfen önceden bilgilendiriniz.`
+  },
+  facilities: {
+    en: `<strong>Facilities & Wellness</strong><br><br>💪 <strong>Fitness Room:</strong> Open 6:00 AM – 10:00 PM<br>🧖 <strong>Spa & Massage:</strong> By appointment, 10:00 AM – 8:00 PM<br>🌅 <strong>Rooftop Terrace:</strong> Panoramic views of Barcelona<br>🔔 <strong>24/7 Front Desk</strong><br>🎭 <strong>Concierge Service:</strong> Restaurant reservations, tours, event tickets<br><br>Our team is at your service to make your stay unforgettable.`,
+    es: `<strong>Instalaciones y Bienestar</strong><br><br>💪 <strong>Gimnasio:</strong> Abierto de 6:00 a 22:00<br>🧖 <strong>Spa y Masajes:</strong> Con cita previa, de 10:00 a 20:00<br>🌅 <strong>Terraza Panorámica:</strong> Vistas de Barcelona<br>🔔 <strong>Recepción 24/7</strong><br>🎭 <strong>Servicio de Conserjería:</strong> Reservas en restaurantes, tours, entradas<br><br>Nuestro equipo está a su servicio para hacer su estancia inolvidable.`,
+    tr: `<strong>Tesisler ve Sağlık</strong><br><br>💪 <strong>Fitness Salonu:</strong> 06:00 – 22:00 arası açık<br>🧖 <strong>Spa ve Masaj:</strong> Randevu ile, 10:00 – 20:00<br>🌅 <strong>Çatı Terası:</strong> Barcelona'nın panoramik manzarası<br>🔔 <strong>7/24 Resepsiyon</strong><br>🎭 <strong>Concierge Hizmeti:</strong> Restoran rezervasyonları, turlar, etkinlik biletleri<br><br>Ekibimiz unutulmaz bir konaklama için hizmetinizdedir.`
+  },
+  restaurant: {
+    en: `<strong>Dining at Hotel Mirall</strong><br><br>🍽 <strong>Restaurant:</strong><br>• Lunch: 1:00 PM – 3:30 PM<br>• Dinner: 7:30 PM – 11:00 PM<br><br>🍸 <strong>Rooftop Bar:</strong> 5:00 PM – 1:00 AM<br>Craft cocktails with panoramic Gothic Quarter views<br><br>🛎 <strong>Room Service:</strong> 7:00 AM – 11:00 PM<br>🍷 Minibar in all rooms, restocked daily`,
+    es: `<strong>Gastronomía en Hotel Mirall</strong><br><br>🍽 <strong>Restaurante:</strong><br>• Almuerzo: 13:00 – 15:30<br>• Cena: 19:30 – 23:00<br><br>🍸 <strong>Rooftop Bar:</strong> 17:00 – 1:00<br>Cócteles artesanales con vistas panorámicas del Barrio Gótico<br><br>🛎 <strong>Servicio de Habitaciones:</strong> 7:00 – 23:00<br>🍷 Minibar en todas las habitaciones, repuesto diariamente`,
+    tr: `<strong>Hotel Mirall'da Yemek</strong><br><br>🍽 <strong>Restoran:</strong><br>• Öğle: 13:00 – 15:30<br>• Akşam: 19:30 – 23:00<br><br>🍸 <strong>Çatı Barı:</strong> 17:00 – 01:00<br>Gotik Mahalle panoramik manzarasıyla kokteyl keyfi<br><br>🛎 <strong>Oda Servisi:</strong> 07:00 – 23:00<br>🍷 Tüm odalarda her gün yenilenen minibar`
+  },
+  roomservice: {
+    en: `<strong>Room Service</strong><br><br>🛎 Available daily from <strong>7:00 AM to 11:00 PM</strong><br><br>Enjoy our restaurant's finest dishes from the comfort of your room. Our menu features Mediterranean and international cuisine.<br><br>🍷 Minibar is available in all rooms and restocked daily.`,
+    es: `<strong>Servicio de Habitaciones</strong><br><br>🛎 Disponible diariamente de <strong>7:00 a 23:00</strong><br><br>Disfrute de los mejores platos de nuestro restaurante desde la comodidad de su habitación. Nuestra carta incluye cocina mediterránea e internacional.<br><br>🍷 El minibar está disponible en todas las habitaciones y se repone diariamente.`,
+    tr: `<strong>Oda Servisi</strong><br><br>🛎 Her gün <strong>07:00 – 23:00</strong> arası mevcuttur<br><br>Restoranımızın en seçkin lezzetlerini odanızın konforunda tadın. Menümüzde Akdeniz ve uluslararası mutfak bulunmaktadır.<br><br>🍷 Minibar tüm odalarda mevcuttur ve günlük olarak yenilenir.`
+  },
+  special: {
+    en: `<strong>Special Occasions</strong><br><br>🎂 <strong>Birthday/Anniversary Package:</strong> from €35<br>Decoration, cake arrangement, personalized card<br><br>💑 <strong>Honeymoon Package:</strong> €75<br>Rose petals, champagne, late check-out included<br><br>💍 <strong>Proposals & Surprises:</strong><br>Contact our concierge for bespoke arrangements — we love creating magical moments!`,
+    es: `<strong>Ocasiones Especiales</strong><br><br>🎂 <strong>Pack Cumpleaños/Aniversario:</strong> desde 35 €<br>Decoración, tarta, tarjeta personalizada<br><br>💑 <strong>Pack Luna de Miel:</strong> 75 €<br>Pétalos de rosa, champán, late check-out incluido<br><br>💍 <strong>Pedidas y Sorpresas:</strong><br>Contacte con nuestro concierge para preparativos personalizados — ¡nos encanta crear momentos mágicos!`,
+    tr: `<strong>Özel Günler</strong><br><br>🎂 <strong>Doğum Günü/Yıl Dönümü Paketi:</strong> €35'ten itibaren<br>Dekorasyon, pasta organizasyonu, kişiselleştirilmiş kart<br><br>💑 <strong>Balayı Paketi:</strong> €75<br>Gül yaprakları, şampanya, geç çıkış dahil<br><br>💍 <strong>Sürpriz Organizasyonları:</strong><br>Özel düzenlemeler için concierge'imizle iletişime geçin — sihirli anlar yaratmayı seviyoruz!`
+  },
+  invoice: {
+    en: `<strong>Payment & Invoices</strong><br><br>💳 We accept: <strong>Visa, Mastercard, American Express</strong><br>💶 Cash accepted (EUR only)<br><br>🧾 Official invoices are available upon request — simply inform the front desk or let me know and we'll arrange it.`,
+    es: `<strong>Pago y Facturas</strong><br><br>💳 Aceptamos: <strong>Visa, Mastercard, American Express</strong><br>💶 Efectivo aceptado (solo EUR)<br><br>🧾 Facturas oficiales disponibles bajo petición — simplemente informe en recepción o dígame y lo organizamos.`,
+    tr: `<strong>Ödeme ve Fatura</strong><br><br>💳 Kabul edilen kartlar: <strong>Visa, Mastercard, American Express</strong><br>💶 Nakit kabul edilir (yalnızca EUR)<br><br>🧾 Resmi fatura talep üzerine düzenlenir — resepsiyona bildirin veya bana söyleyin, ayarlayalım.`
+  },
+  luggage: {
+    en: `<strong>Luggage Storage</strong><br><br>🧳 Complimentary luggage storage is available <strong>24/7</strong>.<br><br>Whether you arrive early or have a late flight, feel free to leave your bags with us and explore Barcelona worry-free!`,
+    es: `<strong>Custodia de Equipaje</strong><br><br>🧳 Custodia de equipaje gratuita disponible <strong>las 24 horas</strong>.<br><br>Ya sea que llegue temprano o tenga un vuelo tardío, deje sus maletas con nosotros y explore Barcelona sin preocupaciones.`,
+    tr: `<strong>Bagaj Muhafazası</strong><br><br>🧳 Ücretsiz bagaj muhafazası <strong>7/24</strong> mevcuttur.<br><br>İster erken varın ister geç uçuşunuz olsun, bavullarınızı bize bırakın ve Barcelona'yı gönül rahatlığıyla keşfedin!`
+  },
+  unknown: {
+    en: `I appreciate your question! That's something our reception team can best assist you with.<br><br>📞 You can reach us directly at <strong>+34 93 XXX XX XX</strong>, or I can connect you with our team right away.<br><br>Alternatively, feel free to ask me about rooms, check-in times, breakfast, parking, airport transfers, or any of our services!`,
+    es: `¡Agradezco su consulta! Nuestro equipo de recepción podrá ayudarle mejor con eso.<br><br>📞 Puede contactarnos directamente al <strong>+34 93 XXX XX XX</strong>, o puedo conectarle con nuestro equipo de inmediato.<br><br>También puede preguntarme sobre habitaciones, horarios de check-in, desayuno, parking, transfers al aeropuerto o cualquiera de nuestros servicios.`,
+    tr: `Sorunuz için teşekkür ederim! Bu konuda resepsiyon ekibimiz size en iyi şekilde yardımcı olabilir.<br><br>📞 Bize doğrudan <strong>+34 93 XXX XX XX</strong> numarasından ulaşabilirsiniz veya sizi hemen ekibimizle bağlayabilirim.<br><br>Odalar, giriş saatleri, kahvaltı, otopark, havalimanı transferi veya diğer hizmetlerimiz hakkında da sorabilirsiniz!`
+  }
+};
+
+// ─── INTENT DETECTION ───
+function getIntent(text) {
+  const t = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const rules = [
+    { keys: ['room service','servicio habitacion','oda servis'], intent: 'roomservice' },
+    { keys: ['check-in','checkin','check in','llegada','giris','check-out','checkout','check out','salida','cikis'], intent: 'checkin' },
+    { keys: ['early','late','tarde','temprano','erken','gec'], intent: 'checkin' },
+    { keys: ['breakfast','desayuno','kahvalti'], intent: 'breakfast' },
+    { keys: ['room','habitacion','oda','price','precio','fiyat','rate','tarifa','suite','deluxe','superior','classic'], intent: 'rooms' },
+    { keys: ['wifi','internet','contrasena','sifre','password'], intent: 'wifi' },
+    { keys: ['parking','aparcamiento','otopark','garage','garaje'], intent: 'parking' },
+    { keys: ['airport','aeropuerto','havalimani','transfer','shuttle'], intent: 'airport' },
+    { keys: ['cancel','cancelar','iptal','refund','reembolso'], intent: 'cancel' },
+    { keys: ['pet','dog','cat','perro','gato','mascota','evcil','hayvan'], intent: 'pet' },
+    { keys: ['spa','fitness','gym','gimnasio','massage','masaje','masaj','facilit','instalacion','tesis'], intent: 'facilities' },
+    { keys: ['restaurant','bar','food','comer','yemek','dining','rooftop','menu','carta'], intent: 'restaurant' },
+    { keys: ['special','anniversary','birthday','cumpleanos','aniversario','honeymoon','luna de miel','balayi','dogum','proposal','surprise','sorpresa'], intent: 'special' },
+    { keys: ['invoice','factura','fatura','payment','pago','odeme','receipt','recibo'], intent: 'invoice' },
+    { keys: ['luggage','equipaje','bagaj','bag','maleta','storage','consigna'], intent: 'luggage' },
+  ];
+  for (const rule of rules) {
+    if (rule.keys.some(k => t.includes(k))) return rule.intent;
+  }
+  return 'unknown';
+}
+
+// ─── HANDLE USER MESSAGE ───
+function handleUserMsg(text) {
+  addMsg(text, 'user');
+  input.value = '';
+  const detected = detectLang(text);
+  if (detected !== 'en') lang = detected;
+  const intent = getIntent(text);
+  const r = responses[intent][lang] + followUp[lang];
+  botReply(r);
+}
+
+// ─── EVENT LISTENERS ───
+sendBtn.addEventListener('click', () => {
+  const val = input.value.trim();
+  if (val) handleUserMsg(val);
+});
+input.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const val = input.value.trim();
+    if (val) handleUserMsg(val);
+  }
+});
+
+// ─── CHIP LABELS PER LANGUAGE ───
+const defaultChips = ['Check-in & Check-out', 'Room prices', 'Breakfast', 'Airport transfer', 'Parking', 'WiFi', 'Cancellation policy'];
+
+// ─── AUTO GREETING ───
+setTimeout(() => {
+  if (!greeted) {
+    greeted = true;
+    const greetText = 'Bienvenido a Hotel Mirall ✦ <br>How can I help you today? <br><em style="opacity:.7">¿En qué puedo ayudarle?</em>';
+    if (!isOpen) {
+      badge.classList.add('show');
+    }
+    // Pre-load the greeting so it's there when opened
+    addMsg(greetText, 'bot', true);
+    setTimeout(() => addChips(defaultChips), 200);
+  }
+}, 3000);
+</script>
+</body>
+</html>
