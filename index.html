@@ -88,15 +88,17 @@ nav.scrolled .nav-cta{border-color:var(--charcoal);color:var(--charcoal)}
 .about-stat .num{font-family:'Playfair Display',serif;font-size:2.4rem;color:var(--charcoal);font-weight:700;display:block;line-height:1}
 .about-stat .stat-label{font-size:.7rem;color:var(--warm-gray);letter-spacing:1.5px;text-transform:uppercase;margin-top:6px}
 
-/* ─── FACILITIES (DARK SECTION) ─── */
-.facilities{background:var(--black);padding:100px 48px;text-align:center}
-.facilities .label{font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--blush);margin-bottom:20px;font-weight:500}
-.facilities h2{font-size:clamp(2rem,4vw,3.2rem);color:var(--cream);margin-bottom:56px;font-weight:700}
-.facilities-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:48px;max-width:900px;margin:0 auto}
-.facility{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:110px}
-.facility-icon{width:56px;height:56px;border:1px solid rgba(232,196,160,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--blush);transition:all .4s}
-.facility:hover .facility-icon{background:rgba(232,196,160,.08);border-color:var(--blush);transform:scale(1.1)}
-.facility span{color:rgba(250,247,242,.5);font-size:.78rem;letter-spacing:.5px;line-height:1.5}
+/* ─── FACILITIES (EDITORIAL LIST) ─── */
+.facilities{background:var(--black);padding:100px 48px;border-top:1px solid rgba(250,247,242,.07);border-bottom:1px solid rgba(250,247,242,.07)}
+.facilities-inner{max-width:1240px;margin:0 auto}
+.facilities-heading{margin-bottom:72px}
+.facilities-heading h2{font-size:clamp(4rem,9vw,9rem);font-style:italic;font-weight:400;color:var(--cream);line-height:.95;letter-spacing:-2px}
+.facilities-cols{display:grid;grid-template-columns:1fr 1fr;gap:0 80px}
+.fac-item{display:grid;grid-template-columns:1fr auto;align-items:center;gap:24px;padding:22px 0;border-bottom:1px solid rgba(250,247,242,.08);transition:border-color .3s}
+.fac-item:first-child{border-top:1px solid rgba(250,247,242,.08)}
+.fac-item:hover{border-bottom-color:rgba(232,196,160,.25)}
+.fac-name{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:500;color:var(--cream);letter-spacing:-.2px}
+.fac-desc{font-family:'DM Sans',sans-serif;font-size:.75rem;color:rgba(250,247,242,.35);letter-spacing:1px;text-align:right;text-transform:lowercase;white-space:nowrap}
 
 /* ─── FOOTER ─── */
 footer{background:var(--charcoal);padding:80px 48px 40px;color:rgba(250,247,242,.4)}
@@ -181,6 +183,8 @@ footer{background:var(--charcoal);padding:80px 48px 40px;color:rgba(250,247,242,
   .about-text-wrap{padding:40px 24px}
   .about-stats{gap:28px;flex-wrap:wrap}
   .facilities{padding:60px 24px}
+  .facilities-cols{grid-template-columns:1fr}
+  .facilities-heading h2{font-size:clamp(3rem,14vw,5rem)}
   .chat-window{width:calc(100vw - 24px);right:12px;bottom:90px;height:70vh}
   footer{padding:48px 24px 28px}
   .footer-top{flex-direction:column}
@@ -292,40 +296,47 @@ footer{background:var(--charcoal);padding:80px 48px 40px;color:rgba(250,247,242,
 
 <!-- FACILITIES -->
 <section class="facilities" id="facilities">
-  <div class="label">Experience</div>
-  <h2>What Awaits You</h2>
-  <div class="facilities-grid">
-    <div class="facility">
-      <div class="facility-icon">⚡</div>
-      <span>Free WiFi<br>200 Mbps</span>
+  <div class="facilities-inner">
+    <div class="facilities-heading">
+      <h2><em>Experience</em></h2>
     </div>
-    <div class="facility">
-      <div class="facility-icon">🍸</div>
-      <span>Rooftop<br>Bar</span>
-    </div>
-    <div class="facility">
-      <div class="facility-icon">✿</div>
-      <span>Spa &<br>Wellness</span>
-    </div>
-    <div class="facility">
-      <div class="facility-icon">◎</div>
-      <span>Fitness<br>Room</span>
-    </div>
-    <div class="facility">
-      <div class="facility-icon">★</div>
-      <span>24/7<br>Concierge</span>
-    </div>
-    <div class="facility">
-      <div class="facility-icon">✈</div>
-      <span>Airport<br>Transfer</span>
-    </div>
-    <div class="facility">
-      <div class="facility-icon">♨</div>
-      <span>Restaurant<br>& Bar</span>
-    </div>
-    <div class="facility">
-      <div class="facility-icon">☾</div>
-      <span>Room<br>Service</span>
+    <div class="facilities-cols">
+      <div>
+        <div class="fac-item">
+          <span class="fac-name">Rooftop Bar</span>
+          <span class="fac-desc">open until 1am</span>
+        </div>
+        <div class="fac-item">
+          <span class="fac-name">Spa &amp; Wellness</span>
+          <span class="fac-desc">by appointment</span>
+        </div>
+        <div class="fac-item">
+          <span class="fac-name">Free WiFi</span>
+          <span class="fac-desc">200 Mbps</span>
+        </div>
+        <div class="fac-item">
+          <span class="fac-name">Fitness Room</span>
+          <span class="fac-desc">6am – 10pm</span>
+        </div>
+      </div>
+      <div>
+        <div class="fac-item">
+          <span class="fac-name">24/7 Concierge</span>
+          <span class="fac-desc">always here</span>
+        </div>
+        <div class="fac-item">
+          <span class="fac-name">Airport Transfer</span>
+          <span class="fac-desc">from €45</span>
+        </div>
+        <div class="fac-item">
+          <span class="fac-name">Restaurant &amp; Bar</span>
+          <span class="fac-desc">lunch &amp; dinner</span>
+        </div>
+        <div class="fac-item">
+          <span class="fac-name">Room Service</span>
+          <span class="fac-desc">7am – 11pm</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
