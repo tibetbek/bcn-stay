@@ -4,173 +4,189 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hotel Mirall Barcelona — Where Barcelona Reflects Itself</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --navy:#0f1f3d;--gold:#c9a84c;--bg:#faf8f5;--text:#1a1a1a;
-  --gold-light:#f5edda;--navy-light:#1a2f5a;--shadow:0 8px 32px rgba(15,31,61,.18);
+  --cream:#FAF7F2;--blush:#E8C4A0;--charcoal:#1a1a1a;--black:#111;
+  --warm-gray:#8a8178;--light-line:rgba(26,26,26,.08);
 }
 html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--bg);overflow-x:hidden;line-height:1.6}
-h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1.2}
+body{font-family:'DM Sans',sans-serif;color:var(--charcoal);background:var(--cream);overflow-x:hidden;line-height:1.7;font-size:16px}
+h1,h2,h3,h4,h5{font-family:'Playfair Display',serif;font-weight:700;line-height:1.1}
+img{display:block;width:100%;height:100%;object-fit:cover}
+a{text-decoration:none;color:inherit}
 
 /* ─── NAV ─── */
-nav{position:fixed;top:0;left:0;width:100%;z-index:100;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;transition:background .4s,padding .3s}
-nav.scrolled{background:rgba(15,31,61,.97);padding:14px 48px;backdrop-filter:blur(8px)}
-.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:#fff;letter-spacing:2px;text-transform:uppercase}
-.nav-logo span{color:var(--gold)}
-.nav-links{display:flex;gap:32px;list-style:none}
-.nav-links a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.85rem;letter-spacing:1.2px;text-transform:uppercase;transition:color .3s;font-weight:500}
-.nav-links a:hover{color:var(--gold)}
-.nav-cta{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:10px 28px;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:'DM Sans',sans-serif;font-weight:500}
-.nav-cta:hover{background:var(--gold);color:var(--navy)}
+nav{position:fixed;top:0;left:0;width:100%;z-index:100;padding:28px 48px;display:flex;align-items:center;justify-content:space-between;transition:all .5s cubic-bezier(.4,0,.2,1)}
+nav.scrolled{background:rgba(250,247,242,.95);padding:18px 48px;backdrop-filter:blur(12px);border-bottom:1px solid var(--light-line)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;color:#fff;letter-spacing:.5px;transition:color .5s}
+nav.scrolled .nav-logo{color:var(--charcoal)}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{color:rgba(255,255,255,.75);text-decoration:none;font-size:.82rem;letter-spacing:1.5px;text-transform:lowercase;transition:color .4s;font-weight:400}
+nav.scrolled .nav-links a{color:var(--warm-gray)}
+.nav-links a:hover{color:var(--blush)}
+nav.scrolled .nav-links a:hover{color:var(--charcoal)}
+.nav-cta{background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;padding:10px 28px;font-size:.78rem;letter-spacing:1.5px;text-transform:lowercase;cursor:pointer;transition:all .4s;font-family:'DM Sans',sans-serif;font-weight:400}
+nav.scrolled .nav-cta{border-color:var(--charcoal);color:var(--charcoal)}
+.nav-cta:hover{background:var(--charcoal);color:var(--cream);border-color:var(--charcoal)}
 
 /* ─── HERO ─── */
-.hero{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;text-align:center}
-.hero-bg{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover}
-.hero::after{content:'';position:absolute;inset:0;background:
-  linear-gradient(to bottom,rgba(10,22,40,.55) 0%,rgba(15,31,61,.7) 50%,rgba(10,22,40,.85) 100%);
-z-index:1}
-.hero-pattern{position:absolute;inset:0;z-index:1;opacity:.04;background-image:
-  repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(255,255,255,.5) 40px,rgba(255,255,255,.5) 41px),
-  repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(255,255,255,.5) 40px,rgba(255,255,255,.5) 41px)}
-.hero-content{position:relative;z-index:2;max-width:800px;padding:0 24px}
-.hero-stars{letter-spacing:12px;color:var(--gold);font-size:1rem;margin-bottom:20px;opacity:.9}
-.hero h1{font-size:clamp(2.8rem,6vw,5rem);color:#fff;font-weight:300;letter-spacing:4px;margin-bottom:8px;text-transform:uppercase}
-.hero h1 span{display:block;font-size:clamp(1rem,2vw,1.35rem);font-family:'DM Sans',sans-serif;font-weight:300;letter-spacing:8px;color:var(--gold);margin-top:16px;text-transform:uppercase}
-.hero-tagline{font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,2vw,1.4rem);color:rgba(255,255,255,.7);font-style:italic;font-weight:300;margin:24px 0 40px}
-.hero-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
-.btn{padding:16px 40px;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .35s;font-family:'DM Sans',sans-serif;font-weight:500;border:none;text-decoration:none;display:inline-block}
-.btn-gold{background:var(--gold);color:var(--navy)}.btn-gold:hover{background:#d4b35c;transform:translateY(-2px);box-shadow:0 6px 24px rgba(201,168,76,.35)}
-.btn-outline{background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff}.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
-.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:2;color:rgba(255,255,255,.4);font-size:.7rem;letter-spacing:3px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px;animation:float 3s ease-in-out infinite}
-.hero-scroll .line{width:1px;height:40px;background:linear-gradient(to bottom,rgba(201,168,76,.6),transparent)}
-@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+.hero{height:100vh;position:relative;overflow:hidden;display:flex;align-items:flex-end}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,rgba(0,0,0,.15) 50%,rgba(0,0,0,.1) 100%);z-index:1}
+.hero-content{position:relative;z-index:2;padding:0 48px 80px;max-width:900px}
+.hero-eyebrow{font-family:'DM Sans',sans-serif;font-size:.72rem;letter-spacing:4px;text-transform:uppercase;color:var(--blush);margin-bottom:24px;font-weight:400}
+.hero h1{font-size:clamp(3.5rem,8vw,7rem);color:#fff;font-weight:700;letter-spacing:-1px;margin-bottom:16px}
+.hero h1 em{font-style:italic;font-weight:400;display:block;font-size:clamp(1.8rem,4vw,3.2rem);color:rgba(255,255,255,.6);margin-top:4px}
+.hero-tagline{font-family:'DM Sans',sans-serif;font-size:1rem;color:rgba(255,255,255,.55);max-width:420px;margin-bottom:40px;font-weight:300;line-height:1.7}
+.hero-buttons{display:flex;gap:16px;flex-wrap:wrap}
+.btn{padding:14px 36px;font-size:.78rem;letter-spacing:1.8px;text-transform:lowercase;cursor:pointer;transition:all .4s;font-family:'DM Sans',sans-serif;font-weight:400;border:none;display:inline-block}
+.btn-primary{background:transparent;border:1px solid #fff;color:#fff}.btn-primary:hover{background:#fff;color:var(--charcoal)}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.7)}.btn-ghost:hover{border-color:#fff;color:#fff}
+.hero-scroll{position:absolute;bottom:32px;right:48px;z-index:2;writing-mode:vertical-rl;color:rgba(255,255,255,.35);font-size:.68rem;letter-spacing:3px;text-transform:lowercase;display:flex;align-items:center;gap:12px}
+.hero-scroll .line{width:1px;height:48px;background:linear-gradient(to bottom,rgba(232,196,160,.5),transparent)}
 
-/* ─── SECTION COMMON ─── */
-section{padding:100px 48px}
-.section-label{font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:500}
-.section-title{font-size:clamp(2rem,4vw,3rem);color:var(--navy);margin-bottom:16px}
-.section-divider{width:60px;height:2px;background:var(--gold);margin-bottom:40px}
+/* ─── EDITORIAL DIVIDER ─── */
+.editorial-divider{padding:60px 48px;text-align:center;border-top:1px solid var(--light-line);border-bottom:1px solid var(--light-line)}
+.editorial-divider h2{font-size:clamp(2.5rem,5vw,4.5rem);font-weight:400;font-style:italic;color:var(--charcoal);letter-spacing:-1px}
 
 /* ─── ROOMS ─── */
-.rooms{background:#fff}
-.rooms-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;max-width:1200px;margin:0 auto}
-.room-card{background:var(--bg);border-radius:12px;overflow:hidden;transition:transform .35s,box-shadow .35s;cursor:pointer}
-.room-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
-.room-img{height:220px;position:relative;overflow:hidden}
-.room-img img{width:100%;height:100%;object-fit:cover;display:block}
-.room-img::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,transparent 60%,rgba(10,22,40,.15) 100%)}
-.room-img .room-tag{position:absolute;top:16px;right:16px;z-index:3;background:var(--gold);color:var(--navy);font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;font-weight:600}
-.room-body{padding:28px}
-.room-body h3{font-size:1.5rem;color:var(--navy);margin-bottom:4px}
-.room-body .room-size{font-size:.8rem;color:#888;margin-bottom:12px}
-.room-body p{font-size:.9rem;color:#555;margin-bottom:16px;line-height:1.6}
-.room-footer{display:flex;align-items:center;justify-content:space-between}
-.room-price{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--navy);font-weight:600}
-.room-price span{font-size:.8rem;font-family:'DM Sans',sans-serif;color:#888;font-weight:400}
-.room-book{background:var(--navy);color:var(--gold);padding:10px 20px;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;border:none;cursor:pointer;transition:all .3s;font-family:'DM Sans',sans-serif;font-weight:500}
-.room-book:hover{background:var(--gold);color:var(--navy)}
+.rooms{background:var(--cream);padding:100px 48px}
+.rooms-header{max-width:600px;margin-bottom:64px}
+.rooms-header .label{font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--blush);margin-bottom:16px;font-weight:500}
+.rooms-header h2{font-size:clamp(2.4rem,4.5vw,3.8rem);margin-bottom:16px;font-weight:700}
+.rooms-header p{color:var(--warm-gray);font-size:1rem;line-height:1.8}
+.rooms-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:1240px}
+.room-card{background:#fff;overflow:hidden;cursor:pointer;transition:transform .5s cubic-bezier(.4,0,.2,1),box-shadow .5s;position:relative}
+.room-card:hover{transform:translateY(-4px);box-shadow:0 24px 64px rgba(26,26,26,.08)}
+.room-img{height:320px;position:relative;overflow:hidden}
+.room-img img{transition:transform .8s cubic-bezier(.4,0,.2,1)}
+.room-card:hover .room-img img{transform:scale(1.04)}
+.room-tag{position:absolute;bottom:16px;left:16px;z-index:3;background:var(--cream);color:var(--charcoal);font-size:.65rem;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;font-weight:500}
+.room-body{padding:32px}
+.room-body h3{font-size:1.6rem;margin-bottom:4px;font-weight:600}
+.room-body .room-size{font-size:.78rem;color:var(--warm-gray);margin-bottom:14px;letter-spacing:.5px}
+.room-body p{font-size:.9rem;color:#666;margin-bottom:20px;line-height:1.7}
+.room-footer{display:flex;align-items:center;justify-content:space-between;padding-top:20px;border-top:1px solid var(--light-line)}
+.room-price{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600}
+.room-price span{font-size:.78rem;font-family:'DM Sans',sans-serif;color:var(--warm-gray);font-weight:400}
+.room-book{background:transparent;color:var(--charcoal);padding:10px 24px;font-size:.72rem;letter-spacing:1.5px;text-transform:lowercase;border:1px solid var(--charcoal);cursor:pointer;transition:all .35s;font-family:'DM Sans',sans-serif;font-weight:400}
+.room-book:hover{background:var(--charcoal);color:var(--cream)}
 
-/* ─── ABOUT ─── */
-.about{background:var(--bg)}
-.about-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-.about-visual{height:400px;border-radius:12px;position:relative;overflow:hidden}
-.about-visual::before{content:'';position:absolute;inset:0;background:url('about-barcelona.jpg') center/cover no-repeat;border-radius:12px}
-.about-text p{font-size:1.05rem;color:#444;line-height:1.8;margin-bottom:20px}
-.about-stats{display:flex;gap:40px;margin-top:32px}
-.about-stat{text-align:center}
-.about-stat .num{font-family:'Cormorant Garamond',serif;font-size:2.4rem;color:var(--navy);font-weight:600;display:block}
-.about-stat .label{font-size:.75rem;color:#888;letter-spacing:1px;text-transform:uppercase}
+/* ─── ABOUT (EDITORIAL SPLIT) ─── */
+.about{background:var(--cream);padding:0;overflow:hidden}
+.about-wrap{display:grid;grid-template-columns:55% 45%;min-height:700px}
+.about-visual{position:relative;overflow:hidden}
+.about-visual img{width:100%;height:100%;object-fit:cover}
+.about-text-wrap{display:flex;align-items:center;padding:80px 64px}
+.about-text .label{font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--blush);margin-bottom:20px;font-weight:500}
+.about-text h2{font-size:clamp(2rem,3.5vw,3rem);margin-bottom:28px;font-weight:700;line-height:1.15}
+.about-text p{font-size:.95rem;color:#666;line-height:1.9;margin-bottom:20px}
+.about-stats{display:flex;gap:48px;margin-top:40px;padding-top:32px;border-top:1px solid var(--light-line)}
+.about-stat{text-align:left}
+.about-stat .num{font-family:'Playfair Display',serif;font-size:2.4rem;color:var(--charcoal);font-weight:700;display:block;line-height:1}
+.about-stat .stat-label{font-size:.7rem;color:var(--warm-gray);letter-spacing:1.5px;text-transform:uppercase;margin-top:6px}
 
-/* ─── FACILITIES ─── */
-.facilities{background:var(--navy);text-align:center}
-.facilities .section-label{color:var(--gold)}
-.facilities .section-title{color:#fff}
-.facilities .section-divider{margin:0 auto 48px}
-.facilities-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:40px;max-width:1000px;margin:0 auto}
-.facility{display:flex;flex-direction:column;align-items:center;gap:12px;min-width:120px}
-.facility-icon{width:64px;height:64px;border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--gold);transition:all .35s}
-.facility:hover .facility-icon{background:rgba(201,168,76,.1);border-color:var(--gold);transform:scale(1.1)}
-.facility span{color:rgba(255,255,255,.75);font-size:.8rem;letter-spacing:1px}
+/* ─── FACILITIES (DARK SECTION) ─── */
+.facilities{background:var(--black);padding:100px 48px;text-align:center}
+.facilities .label{font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--blush);margin-bottom:20px;font-weight:500}
+.facilities h2{font-size:clamp(2rem,4vw,3.2rem);color:var(--cream);margin-bottom:56px;font-weight:700}
+.facilities-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:48px;max-width:900px;margin:0 auto}
+.facility{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:110px}
+.facility-icon{width:56px;height:56px;border:1px solid rgba(232,196,160,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--blush);transition:all .4s}
+.facility:hover .facility-icon{background:rgba(232,196,160,.08);border-color:var(--blush);transform:scale(1.1)}
+.facility span{color:rgba(250,247,242,.5);font-size:.78rem;letter-spacing:.5px;line-height:1.5}
 
 /* ─── FOOTER ─── */
-footer{background:#0a1628;padding:60px 48px 32px;color:rgba(255,255,255,.5)}
-.footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;max-width:1200px;margin:0 auto 40px}
-.footer-brand .nav-logo{font-size:1.3rem;margin-bottom:12px;display:block}
-.footer-brand p{font-size:.85rem;max-width:300px;line-height:1.7}
-.footer-col h4{color:var(--gold);font-family:'DM Sans',sans-serif;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;font-weight:600}
-.footer-col a{display:block;color:rgba(255,255,255,.5);text-decoration:none;font-size:.85rem;margin-bottom:10px;transition:color .3s}
-.footer-col a:hover{color:var(--gold)}
-.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;text-align:center;font-size:.75rem;max-width:1200px;margin:0 auto}
+footer{background:var(--charcoal);padding:80px 48px 40px;color:rgba(250,247,242,.4)}
+.footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:48px;max-width:1240px;margin:0 auto 48px}
+.footer-brand .footer-logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--cream);margin-bottom:14px;display:block;font-weight:600}
+.footer-brand p{font-size:.85rem;max-width:320px;line-height:1.8}
+.footer-col h4{color:var(--blush);font-family:'DM Sans',sans-serif;font-size:.7rem;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:18px;font-weight:500}
+.footer-col a{display:block;color:rgba(250,247,242,.4);font-size:.85rem;margin-bottom:12px;transition:color .3s}
+.footer-col a:hover{color:var(--cream)}
+.footer-bottom{border-top:1px solid rgba(250,247,242,.06);padding-top:28px;text-align:center;font-size:.72rem;max-width:1240px;margin:0 auto;letter-spacing:.5px}
+.footer-bottom span{color:var(--blush)}
 
 /* ─── CHAT WIDGET ─── */
-.chat-trigger{position:fixed;bottom:28px;right:28px;z-index:1000;width:60px;height:60px;border-radius:50%;background:var(--navy);border:2px solid rgba(201,168,76,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(15,31,61,.35);transition:all .3s}
-.chat-trigger:hover{transform:scale(1.08);box-shadow:0 6px 28px rgba(15,31,61,.45);border-color:var(--gold)}
-.chat-trigger svg{width:26px;height:26px;fill:var(--gold)}
-.chat-trigger.pulse::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--gold);animation:pulse-ring 3s ease-out infinite;opacity:0}
-@keyframes pulse-ring{0%{transform:scale(.9);opacity:.6}100%{transform:scale(1.4);opacity:0}}
-.chat-trigger .badge{position:absolute;top:-2px;right:-2px;width:18px;height:18px;background:#e74c3c;border-radius:50%;font-size:.6rem;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;opacity:0;transform:scale(0);transition:all .3s}
+.chat-trigger{position:fixed;bottom:28px;right:28px;z-index:1000;width:56px;height:56px;border-radius:50%;background:var(--charcoal);border:1px solid rgba(232,196,160,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(26,26,26,.2);transition:all .3s}
+.chat-trigger:hover{transform:scale(1.06);border-color:var(--blush)}
+.chat-trigger svg{width:22px;height:22px;fill:var(--blush)}
+.chat-trigger.pulse::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:1.5px solid var(--blush);animation:pulse-ring 3s ease-out infinite;opacity:0}
+@keyframes pulse-ring{0%{transform:scale(.9);opacity:.5}100%{transform:scale(1.4);opacity:0}}
+.chat-trigger .badge{position:absolute;top:-2px;right:-2px;width:16px;height:16px;background:#c0392b;border-radius:50%;font-size:.55rem;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;opacity:0;transform:scale(0);transition:all .3s}
 .chat-trigger .badge.show{opacity:1;transform:scale(1)}
 
-.chat-window{position:fixed;bottom:100px;right:28px;z-index:1001;width:380px;height:540px;background:#fff;border-radius:16px;box-shadow:0 12px 48px rgba(15,31,61,.22);display:flex;flex-direction:column;overflow:hidden;transform:scale(0) translateY(20px);opacity:0;transform-origin:bottom right;transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .25s;pointer-events:none}
+.chat-window{position:fixed;bottom:96px;right:28px;z-index:1001;width:380px;height:540px;background:var(--cream);border-radius:16px;box-shadow:0 16px 56px rgba(26,26,26,.18);display:flex;flex-direction:column;overflow:hidden;transform:scale(0) translateY(20px);opacity:0;transform-origin:bottom right;transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .25s;pointer-events:none}
 .chat-window.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
 
-.chat-header{background:var(--navy);padding:18px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0}
-.chat-avatar{width:38px;height:38px;border-radius:50%;background:rgba(201,168,76,.15);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--gold);flex-shrink:0;border:1px solid rgba(201,168,76,.3)}
-.chat-header-info h4{color:#fff;font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:500}
-.chat-header-info span{color:rgba(255,255,255,.5);font-size:.7rem;display:flex;align-items:center;gap:4px}
-.chat-header-info .online-dot{width:6px;height:6px;border-radius:50%;background:#4ecb71;display:inline-block}
-.chat-close{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.5);font-size:1.2rem;cursor:pointer;padding:4px;transition:color .3s;line-height:1}
-.chat-close:hover{color:#fff}
+.chat-header{background:var(--charcoal);padding:18px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.chat-avatar{width:36px;height:36px;border-radius:50%;background:rgba(232,196,160,.1);display:flex;align-items:center;justify-content:center;font-size:.85rem;color:var(--blush);flex-shrink:0;border:1px solid rgba(232,196,160,.25)}
+.chat-header-info h4{color:var(--cream);font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:500}
+.chat-header-info span{color:rgba(250,247,242,.4);font-size:.68rem;display:flex;align-items:center;gap:4px}
+.chat-header-info .online-dot{width:5px;height:5px;border-radius:50%;background:#4ecb71;display:inline-block}
+.chat-close{margin-left:auto;background:none;border:none;color:rgba(250,247,242,.4);font-size:1.1rem;cursor:pointer;padding:4px;transition:color .3s;line-height:1}
+.chat-close:hover{color:var(--cream)}
 
-.chat-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:4px;scroll-behavior:smooth;background:#fafafa}
-.chat-body::-webkit-scrollbar{width:4px}
-.chat-body::-webkit-scrollbar-thumb{background:rgba(15,31,61,.15);border-radius:4px}
+.chat-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:4px;scroll-behavior:smooth;background:var(--cream)}
+.chat-body::-webkit-scrollbar{width:3px}
+.chat-body::-webkit-scrollbar-thumb{background:rgba(26,26,26,.1);border-radius:4px}
 
-.msg{max-width:82%;padding:12px 16px;font-size:.88rem;line-height:1.55;animation:msg-in .35s ease-out both;position:relative}
+.msg{max-width:82%;padding:12px 16px;font-size:.86rem;line-height:1.6;animation:msg-in .35s ease-out both;position:relative}
 @keyframes msg-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.msg-bot{background:var(--navy);color:#fff;border-radius:14px 14px 14px 4px;align-self:flex-start}
-.msg-user{background:var(--gold);color:var(--navy);border-radius:14px 14px 4px 14px;align-self:flex-end;font-weight:500}
-.msg-time{font-size:.6rem;color:#aaa;margin-top:2px;padding:0 4px}
+.msg-bot{background:var(--charcoal);color:var(--cream);border-radius:14px 14px 14px 4px;align-self:flex-start}
+.msg-user{background:var(--blush);color:var(--charcoal);border-radius:14px 14px 4px 14px;align-self:flex-end;font-weight:500}
+.msg-time{font-size:.58rem;color:var(--warm-gray);margin-top:2px;padding:0 4px}
 .msg-time.right{text-align:right}
 
-.typing{display:flex;gap:4px;padding:12px 18px;align-self:flex-start;background:var(--navy);border-radius:14px 14px 14px 4px}
-.typing span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.4);animation:typing-bounce .6s ease-in-out infinite}
+.typing{display:flex;gap:4px;padding:12px 18px;align-self:flex-start;background:var(--charcoal);border-radius:14px 14px 14px 4px}
+.typing span{width:6px;height:6px;border-radius:50%;background:rgba(250,247,242,.3);animation:typing-bounce .6s ease-in-out infinite}
 .typing span:nth-child(2){animation-delay:.15s}
 .typing span:nth-child(3){animation-delay:.3s}
-@keyframes typing-bounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
+@keyframes typing-bounce{0%,60%,100%{transform:translateY(0);opacity:.3}30%{transform:translateY(-5px);opacity:1}}
 
 .quick-replies{display:flex;flex-wrap:wrap;gap:6px;padding:4px 0 8px;animation:msg-in .4s ease-out both}
-.chip{background:transparent;border:1.5px solid var(--gold);color:var(--navy);padding:7px 14px;border-radius:20px;font-size:.76rem;cursor:pointer;transition:all .25s;font-family:'DM Sans',sans-serif;white-space:nowrap;font-weight:500}
-.chip:hover{background:var(--gold);color:var(--navy);transform:translateY(-1px)}
+.chip{background:transparent;border:1.5px solid var(--blush);color:var(--charcoal);padding:7px 14px;border-radius:20px;font-size:.74rem;cursor:pointer;transition:all .25s;font-family:'DM Sans',sans-serif;white-space:nowrap;font-weight:500}
+.chip:hover{background:var(--blush);color:var(--charcoal);transform:translateY(-1px)}
 
-.chat-input-area{padding:12px 16px;border-top:1px solid #eee;display:flex;gap:8px;background:#fff;flex-shrink:0}
-.chat-input{flex:1;border:1.5px solid #e0ddd8;border-radius:24px;padding:10px 18px;font-size:.85rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .3s;background:transparent;color:var(--text)}
-.chat-input:focus{border-color:var(--gold)}
-.chat-input::placeholder{color:#aaa}
-.chat-send{width:40px;height:40px;border-radius:50%;background:var(--navy);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0}
-.chat-send:hover{background:var(--gold)}
-.chat-send svg{width:16px;height:16px;fill:var(--gold);transition:fill .3s}
-.chat-send:hover svg{fill:var(--navy)}
+.chat-input-area{padding:12px 16px;border-top:1px solid var(--light-line);display:flex;gap:8px;background:var(--cream);flex-shrink:0}
+.chat-input{flex:1;border:1.5px solid rgba(26,26,26,.1);border-radius:24px;padding:10px 18px;font-size:.84rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .3s;background:transparent;color:var(--charcoal)}
+.chat-input:focus{border-color:var(--blush)}
+.chat-input::placeholder{color:var(--warm-gray)}
+.chat-send{width:38px;height:38px;border-radius:50%;background:var(--charcoal);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0}
+.chat-send:hover{background:var(--blush)}
+.chat-send svg{width:14px;height:14px;fill:var(--blush);transition:fill .3s}
+.chat-send:hover svg{fill:var(--charcoal)}
 
-.chat-footer{text-align:center;padding:6px;background:#fff;font-size:.6rem;color:#bbb;letter-spacing:.5px;flex-shrink:0}
+.chat-footer{text-align:center;padding:6px;background:var(--cream);font-size:.58rem;color:var(--warm-gray);letter-spacing:.5px;flex-shrink:0}
 
 /* ─── RESPONSIVE ─── */
-@media(max-width:768px){
-  nav{padding:16px 20px}nav.scrolled{padding:12px 20px}
-  .nav-links{display:none}
-  section{padding:60px 20px}
-  .about-wrap{grid-template-columns:1fr;gap:32px}
-  .about-visual{height:260px}
-  .chat-window{width:calc(100vw - 24px);right:12px;bottom:90px;height:70vh}
-  .hero h1{letter-spacing:2px}
+@media(max-width:1024px){
   .rooms-grid{grid-template-columns:1fr}
+  .about-wrap{grid-template-columns:1fr}
+  .about-visual{height:400px}
+  .about-text-wrap{padding:48px 32px}
+}
+@media(max-width:768px){
+  nav{padding:18px 24px}nav.scrolled{padding:14px 24px}
+  .nav-links{display:none}
+  .hero-content{padding:0 24px 60px}
+  .rooms{padding:60px 24px}
+  .rooms-grid{grid-template-columns:1fr}
+  .editorial-divider{padding:40px 24px}
+  .about-text-wrap{padding:40px 24px}
+  .about-stats{gap:28px;flex-wrap:wrap}
+  .facilities{padding:60px 24px}
+  .chat-window{width:calc(100vw - 24px);right:12px;bottom:90px;height:70vh}
+  footer{padding:48px 24px 28px}
   .footer-top{flex-direction:column}
 }
 @media(max-width:480px){
   .chat-window{width:100vw;right:0;bottom:0;height:100vh;border-radius:0}
+  .hero h1{font-size:3rem}
+  .rooms-header h2{font-size:2rem}
 }
 </style>
 </head>
@@ -178,48 +194,52 @@ footer{background:#0a1628;padding:60px 48px 32px;color:rgba(255,255,255,.5)}
 
 <!-- NAV -->
 <nav id="mainNav">
-  <div class="nav-logo">Mirall <span>Barcelona</span></div>
+  <div class="nav-logo">Hotel Mirall</div>
   <ul class="nav-links">
-    <li><a href="#rooms">Rooms</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#facilities">Experience</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#rooms">rooms</a></li>
+    <li><a href="#about">story</a></li>
+    <li><a href="#facilities">experience</a></li>
+    <li><a href="#contact">contact</a></li>
   </ul>
-  <button class="nav-cta">Book Now</button>
+  <button class="nav-cta">book a stay</button>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <img class="hero-bg" src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=1920&q=80" alt="Barcelona Gothic Quarter">
-  <div class="hero-pattern"></div>
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=1920&q=80" alt="Barcelona Gothic Quarter at night">
+  </div>
   <div class="hero-content">
-    <div class="hero-stars">★ ★ ★ ★</div>
-    <h1>Hotel Mirall
-      <span>Where Barcelona Reflects Itself</span>
-    </h1>
-    <p class="hero-tagline">"A 32-room sanctuary in the heart of the Gothic Quarter"</p>
+    <div class="hero-eyebrow">Gothic Quarter · Barcelona</div>
+    <h1>Hotel<br>Mirall<em>where Barcelona reflects itself</em></h1>
+    <p class="hero-tagline">A 32-room sanctuary tucked into the winding streets of Barcelona's oldest neighbourhood.</p>
     <div class="hero-buttons">
-      <a href="#" class="btn btn-gold">Book Your Stay</a>
-      <a href="#rooms" class="btn btn-outline">Explore Rooms</a>
+      <a href="#" class="btn btn-primary">book your stay</a>
+      <a href="#rooms" class="btn btn-ghost">explore rooms</a>
     </div>
   </div>
   <div class="hero-scroll">
-    <span>Scroll</span>
+    <span>scroll</span>
     <div class="line"></div>
   </div>
 </section>
 
+<!-- EDITORIAL DIVIDER -->
+<div class="editorial-divider">
+  <h2>"Every corner tells a story"</h2>
+</div>
+
 <!-- ROOMS -->
 <section class="rooms" id="rooms">
-  <div style="max-width:1200px;margin:0 auto">
-    <div class="section-label">Accommodation</div>
-    <h2 class="section-title">Our Rooms & Suites</h2>
-    <div class="section-divider"></div>
+  <div class="rooms-header">
+    <div class="label">Accommodation</div>
+    <h2>Rooms & Suites</h2>
+    <p>Four distinct ways to experience Barcelona — each room a curated blend of Catalan heritage and modern comfort.</p>
   </div>
   <div class="rooms-grid">
-    <div class="room-card room-1">
+    <div class="room-card">
       <div class="room-img">
-        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80" alt="Classic Room" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80" alt="Classic Room" loading="lazy">
       </div>
       <div class="room-body">
         <h3>Classic Room</h3>
@@ -227,13 +247,13 @@ footer{background:#0a1628;padding:60px 48px 32px;color:rgba(255,255,255,.5)}
         <p>Elegant simplicity with warm tones, premium linens, and a view of Barcelona's charming streets.</p>
         <div class="room-footer">
           <div class="room-price">€120 <span>/ night</span></div>
-          <button class="room-book">Reserve</button>
+          <button class="room-book">reserve</button>
         </div>
       </div>
     </div>
-    <div class="room-card room-2">
+    <div class="room-card">
       <div class="room-img">
-        <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=600&q=80" alt="Superior Room" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&q=80" alt="Superior Room" loading="lazy">
         <div class="room-tag">Popular</div>
       </div>
       <div class="room-body">
@@ -242,13 +262,13 @@ footer{background:#0a1628;padding:60px 48px 32px;color:rgba(255,255,255,.5)}
         <p>Spacious retreat overlooking our tranquil courtyard, featuring a luxurious king bed and rainfall shower.</p>
         <div class="room-footer">
           <div class="room-price">€160 <span>/ night</span></div>
-          <button class="room-book">Reserve</button>
+          <button class="room-book">reserve</button>
         </div>
       </div>
     </div>
-    <div class="room-card room-3">
+    <div class="room-card">
       <div class="room-img">
-        <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=600&q=80" alt="Deluxe Room" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800&q=80" alt="Deluxe Room" loading="lazy">
         <div class="room-tag">Exclusive</div>
       </div>
       <div class="room-body">
@@ -257,13 +277,13 @@ footer{background:#0a1628;padding:60px 48px 32px;color:rgba(255,255,255,.5)}
         <p>Indulge in stunning views of the Gothic Quarter with a freestanding bathtub and premium amenities.</p>
         <div class="room-footer">
           <div class="room-price">€210 <span>/ night</span></div>
-          <button class="room-book">Reserve</button>
+          <button class="room-book">reserve</button>
         </div>
       </div>
     </div>
-    <div class="room-card room-4">
+    <div class="room-card">
       <div class="room-img">
-        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80" alt="Junior Suite" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80" alt="Junior Suite" loading="lazy">
         <div class="room-tag">Suite</div>
       </div>
       <div class="room-body">
@@ -272,7 +292,7 @@ footer{background:#0a1628;padding:60px 48px 32px;color:rgba(255,255,255,.5)}
         <p>Our crown jewel — a private terrace with panoramic views, a separate living area, and impeccable design.</p>
         <div class="room-footer">
           <div class="room-price">€290 <span>/ night</span></div>
-          <button class="room-book">Reserve</button>
+          <button class="room-book">reserve</button>
         </div>
       </div>
     </div>
@@ -282,28 +302,35 @@ footer{background:#0a1628;padding:60px 48px 32px;color:rgba(255,255,255,.5)}
 <!-- ABOUT -->
 <section class="about" id="about">
   <div class="about-wrap">
-    <div class="about-visual"></div>
-    <div class="about-text">
-      <div class="section-label">Our Story</div>
-      <h2 class="section-title">A Reflection of Barcelona</h2>
-      <div class="section-divider"></div>
-      <p>Nestled in the winding streets of the Gothic Quarter, Hotel Mirall occupies a meticulously restored 19th-century palace. Each of our 32 rooms is a curated blend of Catalan heritage and contemporary design — where exposed stone arches meet sleek modern furnishings.</p>
-      <p>From our celebrated rooftop terrace with panoramic views of the Cathedral to our intimate spa tucked within the building's original cellars, every corner of Hotel Mirall tells a story. We don't just host guests — we create memories.</p>
-      <div class="about-stats">
-        <div class="about-stat"><span class="num">32</span><span class="label">Rooms</span></div>
-        <div class="about-stat"><span class="num">4</span><span class="label">Stars</span></div>
-        <div class="about-stat"><span class="num">1887</span><span class="label">Building Est.</span></div>
-        <div class="about-stat"><span class="num">9.2</span><span class="label">Guest Rating</span></div>
+    <div class="about-visual">
+      <img src="about-barcelona.jpg" alt="Barcelona Gothic Quarter architecture">
+    </div>
+    <div class="about-text-wrap">
+      <div class="about-text">
+        <div class="label">Our Story</div>
+        <h2>A Reflection<br>of Barcelona</h2>
+        <p>Nestled in the winding streets of the Gothic Quarter, Hotel Mirall occupies a meticulously restored 19th-century palace. Each of our 32 rooms is a curated blend of Catalan heritage and contemporary design — where exposed stone arches meet sleek modern furnishings.</p>
+        <p>From our celebrated rooftop terrace with panoramic views of the Cathedral to our intimate spa tucked within the building's original cellars, every corner of Hotel Mirall tells a story. We don't just host guests — we create memories.</p>
+        <div class="about-stats">
+          <div class="about-stat"><span class="num">32</span><span class="stat-label">Rooms</span></div>
+          <div class="about-stat"><span class="num">4</span><span class="stat-label">Stars</span></div>
+          <div class="about-stat"><span class="num">1887</span><span class="stat-label">Est.</span></div>
+          <div class="about-stat"><span class="num">9.2</span><span class="stat-label">Rating</span></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- EDITORIAL DIVIDER -->
+<div class="editorial-divider" style="background:var(--cream)">
+  <h2>"Stay curious, stay here"</h2>
+</div>
+
 <!-- FACILITIES -->
 <section class="facilities" id="facilities">
-  <div class="section-label">Experience</div>
-  <h2 class="section-title">Hotel Facilities</h2>
-  <div class="section-divider"></div>
+  <div class="label">Experience</div>
+  <h2>What Awaits You</h2>
   <div class="facilities-grid">
     <div class="facility">
       <div class="facility-icon">⚡</div>
@@ -344,7 +371,7 @@ footer{background:#0a1628;padding:60px 48px 32px;color:rgba(255,255,255,.5)}
 <footer id="contact">
   <div class="footer-top">
     <div class="footer-brand">
-      <div class="nav-logo">Mirall <span>Barcelona</span></div>
+      <div class="footer-logo">Hotel Mirall</div>
       <p>A 4-star boutique hotel in the heart of Barcelona's Gothic Quarter. Where history meets modern luxury.</p>
     </div>
     <div class="footer-col">
@@ -363,7 +390,7 @@ footer{background:#0a1628;padding:60px 48px 32px;color:rgba(255,255,255,.5)}
     </div>
   </div>
   <div class="footer-bottom">
-    © 2026 Hotel Mirall Barcelona. All rights reserved. — <span style="color:var(--gold)">Where Barcelona Reflects Itself</span>
+    © 2026 Hotel Mirall Barcelona. All rights reserved. — <span>Where Barcelona Reflects Itself</span>
   </div>
 </footer>
 
@@ -389,7 +416,7 @@ footer{background:#0a1628;padding:60px 48px 32px;color:rgba(255,255,255,.5)}
       <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
     </button>
   </div>
-  <div class="chat-footer">Powered by <strong style="color:var(--navy)">Mirall AI</strong></div>
+  <div class="chat-footer">Powered by <strong style="color:var(--charcoal)">Mirall AI</strong></div>
 </div>
 
 <script>
@@ -468,7 +495,6 @@ function addChips(chips) {
     btn.style.animationDelay = `${i * 0.08}s`;
     btn.addEventListener('click', () => {
       handleUserMsg(c);
-      // Remove all chip containers
       body.querySelectorAll('.quick-replies').forEach(q => q.remove());
     });
     wrap.appendChild(btn);
@@ -631,7 +657,7 @@ input.addEventListener('keydown', e => {
   }
 });
 
-// ─── CHIP LABELS PER LANGUAGE ───
+// ─── CHIP LABELS ───
 const defaultChips = ['Check-in & Check-out', 'Room prices', 'Breakfast', 'Airport transfer', 'Parking', 'WiFi', 'Cancellation policy'];
 
 // ─── AUTO GREETING ───
@@ -642,11 +668,10 @@ setTimeout(() => {
     if (!isOpen) {
       badge.classList.add('show');
     }
-    // Pre-load the greeting so it's there when opened
     addMsg(greetText, 'bot', true);
     setTimeout(() => addChips(defaultChips), 200);
   }
 }, 3000);
 </script>
 </body>
-</html> 
+</html>
