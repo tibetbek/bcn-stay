@@ -52,28 +52,27 @@ nav.scrolled .nav-cta{border-color:var(--charcoal);color:var(--charcoal)}
 .editorial-divider{padding:60px 48px;text-align:center;border-top:1px solid var(--light-line);border-bottom:1px solid var(--light-line)}
 .editorial-divider h2{font-size:clamp(2.5rem,5vw,4.5rem);font-weight:400;font-style:italic;color:var(--charcoal);letter-spacing:-1px}
 
-/* ─── ROOMS ─── */
-.rooms{background:var(--cream);padding:100px 48px}
-.rooms-header{max-width:600px;margin-bottom:64px}
-.rooms-header .label{font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--blush);margin-bottom:16px;font-weight:500}
-.rooms-header h2{font-size:clamp(2.4rem,4.5vw,3.8rem);margin-bottom:16px;font-weight:700}
-.rooms-header p{color:var(--warm-gray);font-size:1rem;line-height:1.8}
-.rooms-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:1240px}
-.room-card{background:#fff;overflow:hidden;cursor:pointer;transition:transform .5s cubic-bezier(.4,0,.2,1),box-shadow .5s;position:relative}
-.room-card:hover{transform:translateY(-4px);box-shadow:0 24px 64px rgba(26,26,26,.08)}
-.room-img{height:320px;position:relative;overflow:hidden}
-.room-img img{transition:transform .8s cubic-bezier(.4,0,.2,1)}
-.room-card:hover .room-img img{transform:scale(1.04)}
-.room-tag{position:absolute;bottom:16px;left:16px;z-index:3;background:var(--cream);color:var(--charcoal);font-size:.65rem;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;font-weight:500}
-.room-body{padding:32px}
-.room-body h3{font-size:1.6rem;margin-bottom:4px;font-weight:600}
-.room-body .room-size{font-size:.78rem;color:var(--warm-gray);margin-bottom:14px;letter-spacing:.5px}
-.room-body p{font-size:.9rem;color:#666;margin-bottom:20px;line-height:1.7}
-.room-footer{display:flex;align-items:center;justify-content:space-between;padding-top:20px;border-top:1px solid var(--light-line)}
-.room-price{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600}
-.room-price span{font-size:.78rem;font-family:'DM Sans',sans-serif;color:var(--warm-gray);font-weight:400}
-.room-book{background:transparent;color:var(--charcoal);padding:10px 24px;font-size:.72rem;letter-spacing:1.5px;text-transform:lowercase;border:1px solid var(--charcoal);cursor:pointer;transition:all .35s;font-family:'DM Sans',sans-serif;font-weight:400}
-.room-book:hover{background:var(--charcoal);color:var(--cream)}
+/* ─── ROOMS (EDITORIAL) ─── */
+.rooms{background:#E8E0F0;padding:100px 48px}
+.rooms-inner{max-width:1240px;margin:0 auto}
+.rooms-top{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:end;margin-bottom:64px}
+.rooms-top .label{font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:#7B6B9A;margin-bottom:16px;font-weight:500}
+.rooms-top h2{font-size:clamp(2.8rem,5vw,4.8rem);font-weight:700;line-height:1.05;color:var(--charcoal)}
+.rooms-top p{color:#6b6370;font-size:1.05rem;line-height:1.85;max-width:400px;margin-bottom:32px}
+.btn-rooms{display:inline-block;background:transparent;border:1px solid var(--charcoal);color:var(--charcoal);padding:12px 32px;font-size:.75rem;letter-spacing:2px;text-transform:lowercase;cursor:pointer;transition:all .4s;font-family:'DM Sans',sans-serif;font-weight:400}
+.btn-rooms:hover{background:var(--charcoal);color:#E8E0F0}
+/* collage */
+.rooms-collage{position:relative;height:560px;margin-bottom:0}
+.collage-img-a{position:absolute;top:0;left:0;width:58%;height:88%;overflow:hidden;box-shadow:0 24px 64px rgba(26,26,26,.12)}
+.collage-img-a img{width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.4,0,.2,1)}
+.collage-img-a:hover img{transform:scale(1.04)}
+.collage-img-b{position:absolute;bottom:0;right:0;width:44%;height:74%;overflow:hidden;box-shadow:0 24px 64px rgba(26,26,26,.14)}
+.collage-img-b img{width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.4,0,.2,1)}
+.collage-img-b:hover img{transform:scale(1.04)}
+/* strip */
+.rooms-strip{margin-top:40px;padding-top:28px;border-top:1px solid rgba(123,107,154,.2);display:flex;gap:40px;align-items:center}
+.rooms-strip span{font-size:.78rem;color:#7B6B9A;letter-spacing:2px;text-transform:uppercase;font-weight:500}
+.rooms-strip .dot{width:4px;height:4px;border-radius:50%;background:rgba(123,107,154,.35);display:inline-block}
 
 /* ─── ABOUT (EDITORIAL SPLIT) ─── */
 .about{background:var(--cream);padding:0;overflow:hidden}
@@ -174,7 +173,10 @@ footer{background:var(--charcoal);padding:80px 48px 40px;color:rgba(250,247,242,
   .nav-links{display:none}
   .hero-content{padding:0 24px 60px}
   .rooms{padding:60px 24px}
-  .rooms-grid{grid-template-columns:1fr}
+  .rooms-top{grid-template-columns:1fr;gap:32px}
+  .rooms-collage{height:400px}
+  .collage-img-a{width:65%;height:82%}
+  .collage-img-b{width:50%;height:66%}
   .editorial-divider{padding:40px 24px}
   .about-text-wrap{padding:40px 24px}
   .about-stats{gap:28px;flex-wrap:wrap}
@@ -231,70 +233,31 @@ footer{background:var(--charcoal);padding:80px 48px 40px;color:rgba(250,247,242,
 
 <!-- ROOMS -->
 <section class="rooms" id="rooms">
-  <div class="rooms-header">
-    <div class="label">Accommodation</div>
-    <h2>Rooms & Suites</h2>
-    <p>Four distinct ways to experience Barcelona — each room a curated blend of Catalan heritage and modern comfort.</p>
-  </div>
-  <div class="rooms-grid">
-    <div class="room-card">
-      <div class="room-img">
-        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80" alt="Classic Room" loading="lazy">
+  <div class="rooms-inner">
+    <div class="rooms-top">
+      <div>
+        <div class="label">Accommodation</div>
+        <h2>Rooms &amp;<br>Suites</h2>
       </div>
-      <div class="room-body">
-        <h3>Classic Room</h3>
-        <div class="room-size">18m² · City View · Queen Bed</div>
-        <p>Elegant simplicity with warm tones, premium linens, and a view of Barcelona's charming streets.</p>
-        <div class="room-footer">
-          <div class="room-price">€120 <span>/ night</span></div>
-          <button class="room-book">reserve</button>
-        </div>
+      <div>
+        <p>Four distinct ways to experience Barcelona — from our intimate Classic Room to the panoramic Junior Suite. Prices from €120/night.</p>
+        <a href="#" class="btn-rooms">view all rooms</a>
       </div>
     </div>
-    <div class="room-card">
-      <div class="room-img">
-        <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&q=80" alt="Superior Room" loading="lazy">
-        <div class="room-tag">Popular</div>
+    <div class="rooms-collage">
+      <div class="collage-img-a">
+        <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1000&q=80" alt="Superior Room">
       </div>
-      <div class="room-body">
-        <h3>Superior Room</h3>
-        <div class="room-size">24m² · Courtyard View · King Bed</div>
-        <p>Spacious retreat overlooking our tranquil courtyard, featuring a luxurious king bed and rainfall shower.</p>
-        <div class="room-footer">
-          <div class="room-price">€160 <span>/ night</span></div>
-          <button class="room-book">reserve</button>
-        </div>
+      <div class="collage-img-b">
+        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80" alt="Junior Suite">
       </div>
     </div>
-    <div class="room-card">
-      <div class="room-img">
-        <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800&q=80" alt="Deluxe Room" loading="lazy">
-        <div class="room-tag">Exclusive</div>
-      </div>
-      <div class="room-body">
-        <h3>Deluxe Room</h3>
-        <div class="room-size">30m² · Gothic Quarter View · King Bed & Bathtub</div>
-        <p>Indulge in stunning views of the Gothic Quarter with a freestanding bathtub and premium amenities.</p>
-        <div class="room-footer">
-          <div class="room-price">€210 <span>/ night</span></div>
-          <button class="room-book">reserve</button>
-        </div>
-      </div>
-    </div>
-    <div class="room-card">
-      <div class="room-img">
-        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80" alt="Junior Suite" loading="lazy">
-        <div class="room-tag">Suite</div>
-      </div>
-      <div class="room-body">
-        <h3>Junior Suite</h3>
-        <div class="room-size">42m² · Panoramic Terrace · Living Area · King Bed</div>
-        <p>Our crown jewel — a private terrace with panoramic views, a separate living area, and impeccable design.</p>
-        <div class="room-footer">
-          <div class="room-price">€290 <span>/ night</span></div>
-          <button class="room-book">reserve</button>
-        </div>
-      </div>
+    <div class="rooms-strip">
+      <span>from €120</span>
+      <span class="dot"></span>
+      <span>4 room types</span>
+      <span class="dot"></span>
+      <span>Gothic Quarter views</span>
     </div>
   </div>
 </section>
