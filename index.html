@@ -165,7 +165,6 @@ footer{background:var(--charcoal);padding:80px 48px 40px;color:rgba(250,247,242,
 
 /* ─── RESPONSIVE ─── */
 @media(max-width:1024px){
-  .rooms-grid{grid-template-columns:1fr}
   .about-wrap{grid-template-columns:1fr}
   .about-visual{height:400px}
   .about-text-wrap{padding:48px 32px}
@@ -192,7 +191,6 @@ footer{background:var(--charcoal);padding:80px 48px 40px;color:rgba(250,247,242,
 @media(max-width:480px){
   .chat-window{width:100vw;right:0;bottom:0;height:100vh;border-radius:0}
   .hero h1{font-size:3rem}
-  .rooms-header h2{font-size:2rem}
 }
 </style>
 </head>
@@ -434,7 +432,7 @@ function addMsg(text, who, skipAnim) {
   const wrap = document.createElement('div');
   const msg = document.createElement('div');
   msg.className = `msg msg-${who}`;
-  msg.innerHTML = text;
+  if (who === 'user') { msg.textContent = text; } else { msg.innerHTML = text; }
   if (skipAnim) msg.style.animation = 'none';
   wrap.appendChild(msg);
   const time = document.createElement('div');
