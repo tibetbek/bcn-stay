@@ -399,6 +399,89 @@ window.addEventListener('scroll', () => {
 });
 
 // ─── CHAT ENGINE ───
+const ANTHROPIC_API_KEY = 'YOUR_API_KEY_HERE';
+const MODEL = 'claude-haiku-4-5-20251001';
+
+const SYSTEM_PROMPT = `You are Mirall Concierge, the AI assistant for Hotel Mirall Barcelona — a 4-star boutique hotel in the Gothic Quarter. You are warm, knowledgeable, and elegantly concise. Always respond in the same language the guest uses.
+
+HOTEL INFORMATION:
+
+ROOMS & RATES:
+- Classic Room (18m²): from €120/night — city view, queen bed
+- Superior Room (24m²): from €160/night — courtyard view, king bed, rainfall shower
+- Deluxe Room (30m²): from €210/night — Gothic Quarter view, king bed, freestanding bathtub
+- Junior Suite (42m²): from €290/night — panoramic terrace, separate living area, king bed
+- Baby cot: €15/night | Extra bed (Superior and above): €40/night
+
+CHECK-IN & CHECK-OUT:
+- Standard check-in: 3:00 PM | Check-out: 12:00 PM
+- Early check-in (from 11:00 AM): €25 — subject to availability
+- Late check-out until 3:00 PM: €30 | until 6:00 PM: €50
+- Complimentary luggage storage available 24/7
+
+BREAKFAST:
+- Served daily 7:00 AM – 10:30 AM (weekends until 11:00 AM)
+- Mediterranean and continental buffet — pastries, local cured meats, seasonal fruits
+- €18/person (included in some rates) | In-room breakfast: +€8 surcharge
+
+WIFI:
+- Free high-speed WiFi throughout the hotel
+- Network: MirallGuest | Password provided at check-in on welcome card
+- Speed: up to 200 Mbps
+
+PARKING:
+- No on-site parking (Gothic Quarter restrictions)
+- Partner garage 150m away: €28/day — hotel can reserve in advance
+- EV charging available at the garage
+
+AIRPORT TRANSFER:
+- Private transfer from/to Barcelona El Prat Airport
+- One way: €45 | Return: €80 | Travel time: ~30–40 minutes
+- Must book at least 24 hours in advance
+- Budget option: Aerobus stop 5-minute walk from hotel (€6.75 one way)
+
+CANCELLATION POLICY:
+- Free cancellation up to 48 hours before arrival
+- Within 48 hours: 1 night charge | No-show: full stay charged
+- Non-refundable rates available at 15% discount
+
+PET POLICY:
+- Small pets welcome (under 10kg): €20/night
+- Pet bed and water bowl provided on request — please inform in advance
+
+FACILITIES:
+- Fitness Room: 6:00 AM – 10:00 PM
+- Spa & Massage: by appointment, 10:00 AM – 8:00 PM
+- Rooftop Terrace: panoramic Barcelona views
+- 24/7 Front Desk & Concierge (restaurant reservations, tours, event tickets)
+
+DINING:
+- Restaurant: Lunch 1:00–3:30 PM | Dinner 7:30–11:00 PM
+- Rooftop Bar: 5:00 PM – 1:00 AM (craft cocktails, Gothic Quarter views)
+- Room Service: 7:00 AM – 11:00 PM | Minibar in all rooms, restocked daily
+
+PAYMENT:
+- Visa, Mastercard, American Express accepted | Cash (EUR only)
+- Official invoices available on request
+
+SPECIAL OCCASIONS:
+- Birthday/Anniversary Package: from €35 (decoration, cake, personalized card)
+- Honeymoon Package: €75 (rose petals, champagne, late check-out)
+- Bespoke proposals and surprises — contact concierge
+
+CONTACT: +34 93 XXX XX XX | reservations@hotelmirall.com
+ADDRESS: Carrer dels Miralls, Gothic Quarter, 08002 Barcelona, Spain
+
+RULES:
+- Always stay in character as Mirall Concierge
+- Respond in the exact same language the guest uses
+- Be warm, concise, and helpful — not robotic or overly formal
+- Use light formatting where helpful (line breaks, bold key info) but keep it conversational
+- Never invent information not listed above
+- For anything outside your knowledge: "I'd love to connect you with our reception team directly — you can reach us at +34 93 XXX XX XX or reservations@hotelmirall.com"`;
+
+const conversationHistory = [];
+
 const trigger = document.getElementById('chatTrigger');
 const win = document.getElementById('chatWindow');
 const body = document.getElementById('chatBody');
@@ -408,7 +491,6 @@ const closeBtn = document.getElementById('chatClose');
 const badge = document.getElementById('chatBadge');
 
 let isOpen = false;
-let lang = 'en';
 let greeted = false;
 
 function toggleChat() {
@@ -475,146 +557,67 @@ function addChips(chips) {
   body.scrollTop = body.scrollHeight;
 }
 
-function botReply(text, chips) {
+// ─── MARKDOWN → HTML (minimal) ───
+function renderMarkdown(text) {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/\n/g, '<br>');
+}
+
+// ─── CLAUDE API CALL ───
+async function callClaude(userMessage) {
+  conversationHistory.push({ role: 'user', content: userMessage });
   showTyping();
-  setTimeout(() => {
+  input.disabled = true;
+  sendBtn.disabled = true;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-allow-browser': 'true'
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        max_tokens: 600,
+        system: SYSTEM_PROMPT,
+        messages: conversationHistory
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || `HTTP ${res.status}`);
+    }
+
+    const data = await res.json();
+    const reply = data.content[0].text;
+    conversationHistory.push({ role: 'assistant', content: reply });
     hideTyping();
-    addMsg(text, 'bot');
-    if (chips && chips.length) setTimeout(() => addChips(chips), 300);
-  }, 800);
-}
+    addMsg(renderMarkdown(reply), 'bot');
 
-// ─── LANGUAGE DETECTION ───
-function detectLang(text) {
-  const t = text.toLowerCase();
-  const es = ['hola','buenos','habitación','desayuno','precio','salida','llegada','cancelar','aparcamiento','aeropuerto','perro','factura','equipaje','servicio','restaurante','comer','gracias','por favor','cumpleaños','aniversario','tarde','temprano','disponible','cuánto','dónde','cuándo','qué'];
-  const tr = ['merhaba','oda','kahvaltı','fiyat','giriş','çıkış','iptal','otopark','havalimanı','evcil','bagaj','fatura','yemek','restoran','teşekkür','lütfen','erken','geç','ne','nerede','nasıl','kadar','doğum','günü'];
-  if (es.some(w => t.includes(w))) return 'es';
-  if (tr.some(w => t.includes(w))) return 'tr';
-  return 'en';
-}
-
-// ─── FOLLOW-UP ───
-const followUp = {
-  en: '<br><br>Is there anything else I can help you with? 😊',
-  es: '<br><br>¿Hay algo más en lo que pueda ayudarle? 😊',
-  tr: '<br><br>Başka yardımcı olabileceğim bir konu var mı? 😊'
-};
-
-// ─── RESPONSES ───
-const responses = {
-  checkin: {
-    en: `<strong>Check-in & Check-out</strong><br><br>🕒 <strong>Standard check-in:</strong> 3:00 PM<br>🕛 <strong>Check-out:</strong> 12:00 PM<br><br>⏰ <strong>Early check-in:</strong> available from 11:00 AM — €25 (subject to availability)<br>⏰ <strong>Late check-out:</strong><br>• Until 3:00 PM — €30<br>• Until 6:00 PM — €50<br><br>🧳 Complimentary luggage storage is available 24/7.`,
-    es: `<strong>Check-in y Check-out</strong><br><br>🕒 <strong>Check-in estándar:</strong> 15:00 h<br>🕛 <strong>Check-out:</strong> 12:00 h<br><br>⏰ <strong>Check-in anticipado:</strong> desde las 11:00 h — 25 € (sujeto a disponibilidad)<br>⏰ <strong>Check-out tardío:</strong><br>• Hasta las 15:00 h — 30 €<br>• Hasta las 18:00 h — 50 €<br><br>🧳 Custodia de equipaje gratuita las 24 horas.`,
-    tr: `<strong>Giriş & Çıkış</strong><br><br>🕒 <strong>Standart giriş:</strong> 15:00<br>🕛 <strong>Çıkış:</strong> 12:00<br><br>⏰ <strong>Erken giriş:</strong> 11:00'den itibaren — €25 (müsaitliğe bağlı)<br>⏰ <strong>Geç çıkış:</strong><br>• 15:00'e kadar — €30<br>• 18:00'e kadar — €50<br><br>🧳 Ücretsiz 7/24 bagaj muhafazası mevcuttur.`
-  },
-  rooms: {
-    en: `<strong>Our Rooms & Rates</strong><br><br>🏨 <strong>Classic Room</strong> (18m²) — from <strong>€120</strong>/night<br>City view, queen bed<br><br>🏨 <strong>Superior Room</strong> (24m²) — from <strong>€160</strong>/night<br>Courtyard view, king bed<br><br>🏨 <strong>Deluxe Room</strong> (30m²) — from <strong>€210</strong>/night<br>Gothic Quarter view, king bed, bathtub<br><br>🏨 <strong>Junior Suite</strong> (42m²) — from <strong>€290</strong>/night<br>Panoramic terrace, living area, king bed<br><br>🛏 Baby cot: €15/night | Extra bed (Superior+): €40/night`,
-    es: `<strong>Nuestras Habitaciones y Tarifas</strong><br><br>🏨 <strong>Classic Room</strong> (18m²) — desde <strong>120 €</strong>/noche<br>Vista ciudad, cama queen<br><br>🏨 <strong>Superior Room</strong> (24m²) — desde <strong>160 €</strong>/noche<br>Vista patio, cama king<br><br>🏨 <strong>Deluxe Room</strong> (30m²) — desde <strong>210 €</strong>/noche<br>Vista Barrio Gótico, cama king, bañera<br><br>🏨 <strong>Junior Suite</strong> (42m²) — desde <strong>290 €</strong>/noche<br>Terraza panorámica, salón, cama king<br><br>🛏 Cuna: 15 €/noche | Cama supletoria (Superior+): 40 €/noche`,
-    tr: `<strong>Odalarımız ve Fiyatlarımız</strong><br><br>🏨 <strong>Classic Oda</strong> (18m²) — <strong>€120</strong>/gece'den itibaren<br>Şehir manzarası, çift kişilik yatak<br><br>🏨 <strong>Superior Oda</strong> (24m²) — <strong>€160</strong>/gece'den itibaren<br>Avlu manzarası, king yatak<br><br>🏨 <strong>Deluxe Oda</strong> (30m²) — <strong>€210</strong>/gece'den itibaren<br>Gotik Mahalle manzarası, king yatak, küvet<br><br>🏨 <strong>Junior Süit</strong> (42m²) — <strong>€290</strong>/gece'den itibaren<br>Panoramik teras, oturma alanı, king yatak<br><br>🛏 Bebek yatağı: €15/gece | İlave yatak (Superior+): €40/gece`
-  },
-  breakfast: {
-    en: `<strong>Breakfast</strong><br><br>🍳 Served daily <strong>7:00 AM – 10:30 AM</strong><br>☀️ Weekends extended until <strong>11:00 AM</strong><br><br>🥐 Buffet-style with Mediterranean and continental options — fresh pastries, local cured meats, seasonal fruits, and more.<br><br>💰 <strong>€18/person</strong> (included in some rates)<br>🛎 In-room breakfast available for +€8 surcharge`,
-    es: `<strong>Desayuno</strong><br><br>🍳 Servido diariamente de <strong>7:00 a 10:30</strong><br>☀️ Fines de semana hasta las <strong>11:00</strong><br><br>🥐 Buffet mediterráneo y continental — bollería fresca, embutidos locales, frutas de temporada y mucho más.<br><br>💰 <strong>18 €/persona</strong> (incluido en algunas tarifas)<br>🛎 Desayuno en habitación disponible por +8 € de suplemento`,
-    tr: `<strong>Kahvaltı</strong><br><br>🍳 Her gün <strong>07:00 – 10:30</strong> arası servis edilir<br>☀️ Hafta sonları <strong>11:00</strong>'e kadar uzatılır<br><br>🥐 Akdeniz ve kontinental seçeneklerle açık büfe — taze hamur işleri, yerel şarküteri, mevsim meyveleri ve daha fazlası.<br><br>💰 <strong>€18/kişi</strong> (bazı tarifelere dahil)<br>🛎 Oda servisi kahvaltı +€8 ek ücretle mevcuttur`
-  },
-  airport: {
-    en: `<strong>Airport Transfer</strong><br><br>✈️ <strong>Private transfer</strong> from/to Barcelona El Prat Airport:<br>• One way: <strong>€45</strong><br>• Return: <strong>€80</strong><br><br>⏱ Travel time: approx. 30–40 minutes<br>📋 Must be booked at least <strong>24 hours in advance</strong><br><br>🚌 <strong>Budget option:</strong> Aerobus stop is a 5-minute walk from the hotel (€6.75 one way)`,
-    es: `<strong>Transfer al Aeropuerto</strong><br><br>✈️ <strong>Transfer privado</strong> desde/hacia el Aeropuerto de Barcelona El Prat:<br>• Ida: <strong>45 €</strong><br>• Ida y vuelta: <strong>80 €</strong><br><br>⏱ Tiempo de viaje: aprox. 30–40 minutos<br>📋 Debe reservarse con al menos <strong>24 horas de antelación</strong><br><br>🚌 <strong>Alternativa económica:</strong> Parada del Aerobús a 5 minutos a pie del hotel (6,75 € por trayecto)`,
-    tr: `<strong>Havalimanı Transferi</strong><br><br>✈️ <strong>Özel transfer</strong> — Barcelona El Prat Havalimanı:<br>• Tek yön: <strong>€45</strong><br>• Gidiş-dönüş: <strong>€80</strong><br><br>⏱ Yolculuk süresi: yaklaşık 30–40 dakika<br>📋 En az <strong>24 saat önceden</strong> rezervasyon gereklidir<br><br>🚌 <strong>Ekonomik seçenek:</strong> Aerobus durağı otelden 5 dakika yürüme mesafesinde (tek yön €6,75)`
-  },
-  parking: {
-    en: `<strong>Parking</strong><br><br>🅿️ Due to Gothic Quarter restrictions, we do not have on-site parking.<br><br>🏢 <strong>Partner garage</strong> located just 150m away:<br>• <strong>€28/day</strong><br>• The hotel can reserve a spot in advance<br>• ⚡ Electric vehicle charging available<br><br>Simply let us know your arrival time and we'll take care of the reservation!`,
-    es: `<strong>Aparcamiento</strong><br><br>🅿️ Debido a las restricciones del Barrio Gótico, no disponemos de parking propio.<br><br>🏢 <strong>Garaje colaborador</strong> a solo 150 m:<br>• <strong>28 €/día</strong><br>• El hotel puede reservar plaza con antelación<br>• ⚡ Carga de vehículos eléctricos disponible<br><br>¡Solo indíquenos su hora de llegada y nos encargamos de la reserva!`,
-    tr: `<strong>Otopark</strong><br><br>🅿️ Gotik Mahalle kısıtlamaları nedeniyle otel bünyesinde otopark bulunmamaktadır.<br><br>🏢 <strong>Anlaşmalı garaj</strong> sadece 150m uzaklıkta:<br>• <strong>€28/gün</strong><br>• Otel önceden yer ayırtabilir<br>• ⚡ Elektrikli araç şarjı mevcuttur<br><br>Varış saatinizi bildirin, rezervasyonu biz halledelim!`
-  },
-  wifi: {
-    en: `<strong>WiFi Information</strong><br><br>📶 <strong>Free high-speed WiFi</strong> throughout the entire hotel<br><br>🌐 Network: <strong>MirallGuest</strong><br>🔑 Password: provided at check-in on your welcome card<br>⚡ Speed: up to <strong>200 Mbps</strong><br><br>Perfect for streaming, video calls, and remote work!`,
-    es: `<strong>Información WiFi</strong><br><br>📶 <strong>WiFi gratuito de alta velocidad</strong> en todo el hotel<br><br>🌐 Red: <strong>MirallGuest</strong><br>🔑 Contraseña: se proporciona en el check-in en la tarjeta de bienvenida<br>⚡ Velocidad: hasta <strong>200 Mbps</strong><br><br>¡Perfecto para streaming, videollamadas y trabajo remoto!`,
-    tr: `<strong>WiFi Bilgisi</strong><br><br>📶 Otelin her yerinde <strong>ücretsiz yüksek hızlı WiFi</strong><br><br>🌐 Ağ: <strong>MirallGuest</strong><br>🔑 Şifre: giriş sırasında hoş geldiniz kartınızda verilir<br>⚡ Hız: <strong>200 Mbps</strong>'ye kadar<br><br>Yayın izleme, görüntülü arama ve uzaktan çalışma için mükemmel!`
-  },
-  cancel: {
-    en: `<strong>Cancellation Policy</strong><br><br>✅ <strong>Free cancellation</strong> up to 48 hours before arrival<br>⚠️ Within 48 hours: 1 night charge applies<br>❌ No-show: full stay will be charged<br><br>💡 <strong>Tip:</strong> Non-refundable rates are available at a <strong>15% discount</strong> — perfect if your plans are confirmed!`,
-    es: `<strong>Política de Cancelación</strong><br><br>✅ <strong>Cancelación gratuita</strong> hasta 48 horas antes de la llegada<br>⚠️ Dentro de las 48 horas: se cobra 1 noche<br>❌ No-show: se cobra la estancia completa<br><br>💡 <strong>Consejo:</strong> Las tarifas no reembolsables tienen un <strong>15% de descuento</strong> — ¡ideales si tiene planes confirmados!`,
-    tr: `<strong>İptal Politikası</strong><br><br>✅ Varıştan <strong>48 saat öncesine</strong> kadar ücretsiz iptal<br>⚠️ 48 saat içinde: 1 gecelik ücret alınır<br>❌ Gelmeme durumu: tam konaklama ücreti tahsil edilir<br><br>💡 <strong>İpucu:</strong> İade edilmeyen tarifeler <strong>%15 indirimli</strong> — planlarınız kesinse ideal!`
-  },
-  pet: {
-    en: `<strong>Pet Policy</strong><br><br>🐾 Small pets are welcome (under 10kg): <strong>€20/night</strong><br>🛏 Pet bed and water bowl provided on request<br><br>We love furry guests! Please inform us in advance so we can prepare your room.`,
-    es: `<strong>Política de Mascotas</strong><br><br>🐾 Se admiten mascotas pequeñas (menos de 10 kg): <strong>20 €/noche</strong><br>🛏 Cama y cuenco para mascotas bajo petición<br><br>¡Nos encantan los huéspedes peludos! Infórmenos con antelación para preparar su habitación.`,
-    tr: `<strong>Evcil Hayvan Politikası</strong><br><br>🐾 Küçük evcil hayvanlar kabul edilir (10 kg altı): <strong>€20/gece</strong><br>🛏 Talep üzerine evcil hayvan yatağı ve su kabı sağlanır<br><br>Tüylü misafirlerimizi seviyoruz! Odanızı hazırlayabilmemiz için lütfen önceden bilgilendiriniz.`
-  },
-  facilities: {
-    en: `<strong>Facilities & Wellness</strong><br><br>💪 <strong>Fitness Room:</strong> Open 6:00 AM – 10:00 PM<br>🧖 <strong>Spa & Massage:</strong> By appointment, 10:00 AM – 8:00 PM<br>🌅 <strong>Rooftop Terrace:</strong> Panoramic views of Barcelona<br>🔔 <strong>24/7 Front Desk</strong><br>🎭 <strong>Concierge Service:</strong> Restaurant reservations, tours, event tickets<br><br>Our team is at your service to make your stay unforgettable.`,
-    es: `<strong>Instalaciones y Bienestar</strong><br><br>💪 <strong>Gimnasio:</strong> Abierto de 6:00 a 22:00<br>🧖 <strong>Spa y Masajes:</strong> Con cita previa, de 10:00 a 20:00<br>🌅 <strong>Terraza Panorámica:</strong> Vistas de Barcelona<br>🔔 <strong>Recepción 24/7</strong><br>🎭 <strong>Servicio de Conserjería:</strong> Reservas en restaurantes, tours, entradas<br><br>Nuestro equipo está a su servicio para hacer su estancia inolvidable.`,
-    tr: `<strong>Tesisler ve Sağlık</strong><br><br>💪 <strong>Fitness Salonu:</strong> 06:00 – 22:00 arası açık<br>🧖 <strong>Spa ve Masaj:</strong> Randevu ile, 10:00 – 20:00<br>🌅 <strong>Çatı Terası:</strong> Barcelona'nın panoramik manzarası<br>🔔 <strong>7/24 Resepsiyon</strong><br>🎭 <strong>Concierge Hizmeti:</strong> Restoran rezervasyonları, turlar, etkinlik biletleri<br><br>Ekibimiz unutulmaz bir konaklama için hizmetinizdedir.`
-  },
-  restaurant: {
-    en: `<strong>Dining at Hotel Mirall</strong><br><br>🍽 <strong>Restaurant:</strong><br>• Lunch: 1:00 PM – 3:30 PM<br>• Dinner: 7:30 PM – 11:00 PM<br><br>🍸 <strong>Rooftop Bar:</strong> 5:00 PM – 1:00 AM<br>Craft cocktails with panoramic Gothic Quarter views<br><br>🛎 <strong>Room Service:</strong> 7:00 AM – 11:00 PM<br>🍷 Minibar in all rooms, restocked daily`,
-    es: `<strong>Gastronomía en Hotel Mirall</strong><br><br>🍽 <strong>Restaurante:</strong><br>• Almuerzo: 13:00 – 15:30<br>• Cena: 19:30 – 23:00<br><br>🍸 <strong>Rooftop Bar:</strong> 17:00 – 1:00<br>Cócteles artesanales con vistas panorámicas del Barrio Gótico<br><br>🛎 <strong>Servicio de Habitaciones:</strong> 7:00 – 23:00<br>🍷 Minibar en todas las habitaciones, repuesto diariamente`,
-    tr: `<strong>Hotel Mirall'da Yemek</strong><br><br>🍽 <strong>Restoran:</strong><br>• Öğle: 13:00 – 15:30<br>• Akşam: 19:30 – 23:00<br><br>🍸 <strong>Çatı Barı:</strong> 17:00 – 01:00<br>Gotik Mahalle panoramik manzarasıyla kokteyl keyfi<br><br>🛎 <strong>Oda Servisi:</strong> 07:00 – 23:00<br>🍷 Tüm odalarda her gün yenilenen minibar`
-  },
-  roomservice: {
-    en: `<strong>Room Service</strong><br><br>🛎 Available daily from <strong>7:00 AM to 11:00 PM</strong><br><br>Enjoy our restaurant's finest dishes from the comfort of your room. Our menu features Mediterranean and international cuisine.<br><br>🍷 Minibar is available in all rooms and restocked daily.`,
-    es: `<strong>Servicio de Habitaciones</strong><br><br>🛎 Disponible diariamente de <strong>7:00 a 23:00</strong><br><br>Disfrute de los mejores platos de nuestro restaurante desde la comodidad de su habitación. Nuestra carta incluye cocina mediterránea e internacional.<br><br>🍷 El minibar está disponible en todas las habitaciones y se repone diariamente.`,
-    tr: `<strong>Oda Servisi</strong><br><br>🛎 Her gün <strong>07:00 – 23:00</strong> arası mevcuttur<br><br>Restoranımızın en seçkin lezzetlerini odanızın konforunda tadın. Menümüzde Akdeniz ve uluslararası mutfak bulunmaktadır.<br><br>🍷 Minibar tüm odalarda mevcuttur ve günlük olarak yenilenir.`
-  },
-  special: {
-    en: `<strong>Special Occasions</strong><br><br>🎂 <strong>Birthday/Anniversary Package:</strong> from €35<br>Decoration, cake arrangement, personalized card<br><br>💑 <strong>Honeymoon Package:</strong> €75<br>Rose petals, champagne, late check-out included<br><br>💍 <strong>Proposals & Surprises:</strong><br>Contact our concierge for bespoke arrangements — we love creating magical moments!`,
-    es: `<strong>Ocasiones Especiales</strong><br><br>🎂 <strong>Pack Cumpleaños/Aniversario:</strong> desde 35 €<br>Decoración, tarta, tarjeta personalizada<br><br>💑 <strong>Pack Luna de Miel:</strong> 75 €<br>Pétalos de rosa, champán, late check-out incluido<br><br>💍 <strong>Pedidas y Sorpresas:</strong><br>Contacte con nuestro concierge para preparativos personalizados — ¡nos encanta crear momentos mágicos!`,
-    tr: `<strong>Özel Günler</strong><br><br>🎂 <strong>Doğum Günü/Yıl Dönümü Paketi:</strong> €35'ten itibaren<br>Dekorasyon, pasta organizasyonu, kişiselleştirilmiş kart<br><br>💑 <strong>Balayı Paketi:</strong> €75<br>Gül yaprakları, şampanya, geç çıkış dahil<br><br>💍 <strong>Sürpriz Organizasyonları:</strong><br>Özel düzenlemeler için concierge'imizle iletişime geçin — sihirli anlar yaratmayı seviyoruz!`
-  },
-  invoice: {
-    en: `<strong>Payment & Invoices</strong><br><br>💳 We accept: <strong>Visa, Mastercard, American Express</strong><br>💶 Cash accepted (EUR only)<br><br>🧾 Official invoices are available upon request — simply inform the front desk or let me know and we'll arrange it.`,
-    es: `<strong>Pago y Facturas</strong><br><br>💳 Aceptamos: <strong>Visa, Mastercard, American Express</strong><br>💶 Efectivo aceptado (solo EUR)<br><br>🧾 Facturas oficiales disponibles bajo petición — simplemente informe en recepción o dígame y lo organizamos.`,
-    tr: `<strong>Ödeme ve Fatura</strong><br><br>💳 Kabul edilen kartlar: <strong>Visa, Mastercard, American Express</strong><br>💶 Nakit kabul edilir (yalnızca EUR)<br><br>🧾 Resmi fatura talep üzerine düzenlenir — resepsiyona bildirin veya bana söyleyin, ayarlayalım.`
-  },
-  luggage: {
-    en: `<strong>Luggage Storage</strong><br><br>🧳 Complimentary luggage storage is available <strong>24/7</strong>.<br><br>Whether you arrive early or have a late flight, feel free to leave your bags with us and explore Barcelona worry-free!`,
-    es: `<strong>Custodia de Equipaje</strong><br><br>🧳 Custodia de equipaje gratuita disponible <strong>las 24 horas</strong>.<br><br>Ya sea que llegue temprano o tenga un vuelo tardío, deje sus maletas con nosotros y explore Barcelona sin preocupaciones.`,
-    tr: `<strong>Bagaj Muhafazası</strong><br><br>🧳 Ücretsiz bagaj muhafazası <strong>7/24</strong> mevcuttur.<br><br>İster erken varın ister geç uçuşunuz olsun, bavullarınızı bize bırakın ve Barcelona'yı gönül rahatlığıyla keşfedin!`
-  },
-  unknown: {
-    en: `I appreciate your question! That's something our reception team can best assist you with.<br><br>📞 You can reach us directly at <strong>+34 93 XXX XX XX</strong>, or I can connect you with our team right away.<br><br>Alternatively, feel free to ask me about rooms, check-in times, breakfast, parking, airport transfers, or any of our services!`,
-    es: `¡Agradezco su consulta! Nuestro equipo de recepción podrá ayudarle mejor con eso.<br><br>📞 Puede contactarnos directamente al <strong>+34 93 XXX XX XX</strong>, o puedo conectarle con nuestro equipo de inmediato.<br><br>También puede preguntarme sobre habitaciones, horarios de check-in, desayuno, parking, transfers al aeropuerto o cualquiera de nuestros servicios.`,
-    tr: `Sorunuz için teşekkür ederim! Bu konuda resepsiyon ekibimiz size en iyi şekilde yardımcı olabilir.<br><br>📞 Bize doğrudan <strong>+34 93 XXX XX XX</strong> numarasından ulaşabilirsiniz veya sizi hemen ekibimizle bağlayabilirim.<br><br>Odalar, giriş saatleri, kahvaltı, otopark, havalimanı transferi veya diğer hizmetlerimiz hakkında da sorabilirsiniz!`
+  } catch (err) {
+    hideTyping();
+    addMsg('I\'m having a little trouble connecting right now. Please call us directly at <strong>+34 93 XXX XX XX</strong> and our team will be delighted to help.', 'bot');
+    conversationHistory.pop(); // remove failed user message so history stays clean
+    console.error('Mirall AI error:', err);
+  } finally {
+    input.disabled = false;
+    sendBtn.disabled = false;
+    input.focus();
   }
-};
-
-// ─── INTENT DETECTION ───
-function getIntent(text) {
-  const t = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  const rules = [
-    { keys: ['room service','servicio habitacion','oda servis'], intent: 'roomservice' },
-    { keys: ['check-in','checkin','check in','llegada','giris','check-out','checkout','check out','salida','cikis'], intent: 'checkin' },
-    { keys: ['early','late','tarde','temprano','erken','gec'], intent: 'checkin' },
-    { keys: ['breakfast','desayuno','kahvalti'], intent: 'breakfast' },
-    { keys: ['room','habitacion','oda','price','precio','fiyat','rate','tarifa','suite','deluxe','superior','classic'], intent: 'rooms' },
-    { keys: ['wifi','internet','contrasena','sifre','password'], intent: 'wifi' },
-    { keys: ['parking','aparcamiento','otopark','garage','garaje'], intent: 'parking' },
-    { keys: ['airport','aeropuerto','havalimani','transfer','shuttle'], intent: 'airport' },
-    { keys: ['cancel','cancelar','iptal','refund','reembolso'], intent: 'cancel' },
-    { keys: ['pet','dog','cat','perro','gato','mascota','evcil','hayvan'], intent: 'pet' },
-    { keys: ['spa','fitness','gym','gimnasio','massage','masaje','masaj','facilit','instalacion','tesis'], intent: 'facilities' },
-    { keys: ['restaurant','bar','food','comer','yemek','dining','rooftop','menu','carta'], intent: 'restaurant' },
-    { keys: ['special','anniversary','birthday','cumpleanos','aniversario','honeymoon','luna de miel','balayi','dogum','proposal','surprise','sorpresa'], intent: 'special' },
-    { keys: ['invoice','factura','fatura','payment','pago','odeme','receipt','recibo'], intent: 'invoice' },
-    { keys: ['luggage','equipaje','bagaj','bag','maleta','storage','consigna'], intent: 'luggage' },
-  ];
-  for (const rule of rules) {
-    if (rule.keys.some(k => t.includes(k))) return rule.intent;
-  }
-  return 'unknown';
 }
 
 // ─── HANDLE USER MESSAGE ───
 function handleUserMsg(text) {
+  if (!text.trim()) return;
   addMsg(text, 'user');
   input.value = '';
-  const detected = detectLang(text);
-  if (detected !== 'en') lang = detected;
-  const intent = getIntent(text);
-  const r = responses[intent][lang] + followUp[lang];
-  botReply(r);
+  callClaude(text);
 }
 
 // ─── EVENT LISTENERS ───
@@ -623,7 +626,7 @@ sendBtn.addEventListener('click', () => {
   if (val) handleUserMsg(val);
 });
 input.addEventListener('keydown', e => {
-  if (e.key === 'Enter') {
+  if (e.key === 'Enter' && !e.shiftKey) {
     const val = input.value.trim();
     if (val) handleUserMsg(val);
   }
@@ -636,10 +639,8 @@ const defaultChips = ['Check-in & Check-out', 'Room prices', 'Breakfast', 'Airpo
 setTimeout(() => {
   if (!greeted) {
     greeted = true;
-    const greetText = 'Bienvenido a Hotel Mirall ✦ <br>How can I help you today? <br><em style="opacity:.7">¿En qué puedo ayudarle?</em>';
-    if (!isOpen) {
-      badge.classList.add('show');
-    }
+    const greetText = 'Bienvenido a Hotel Mirall ✦<br>How can I help you today?<br><em style="opacity:.7">¿En qué puedo ayudarle?</em>';
+    if (!isOpen) badge.classList.add('show');
     addMsg(greetText, 'bot', true);
     setTimeout(() => addChips(defaultChips), 200);
   }
