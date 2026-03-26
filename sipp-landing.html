@@ -7,13 +7,9 @@
   <meta name="description" content="AI-powered guest communication for independent Barcelona hotels. Answer questions 24/7, capture direct bookings, free up your front desk." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --cream: #FAF7F2;
@@ -26,84 +22,132 @@
       --border: #E5DDD5;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--cream);
       color: var(--charcoal);
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    /* ─── NAVIGATION ─────────────────────────────────── */
+    /* ── GRAIN OVERLAY ─────────────────────────────── */
+    .grain::after {
+      content: '';
+      position: fixed;
+      inset: -200%;
+      width: 400%;
+      height: 400%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.028;
+      pointer-events: none;
+      z-index: 9999;
+      animation: grain-shift 8s steps(2) infinite;
+    }
+
+    @keyframes grain-shift {
+      0%   { transform: translate(0, 0); }
+      10%  { transform: translate(-2%, -3%); }
+      20%  { transform: translate(3%, 2%); }
+      30%  { transform: translate(-1%, 4%); }
+      40%  { transform: translate(4%, -1%); }
+      50%  { transform: translate(-3%, 3%); }
+      60%  { transform: translate(2%, -4%); }
+      70%  { transform: translate(-4%, 1%); }
+      80%  { transform: translate(1%, -2%); }
+      90%  { transform: translate(-2%, 4%); }
+      100% { transform: translate(0, 0); }
+    }
+
+    /* ── NAVIGATION ────────────────────────────────── */
     nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
       padding: 0 5%;
-      height: 72px;
+      height: 62px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(250, 247, 242, 0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(250, 247, 242, 0);
+      backdrop-filter: blur(0px);
+      -webkit-backdrop-filter: blur(0px);
       border-bottom: 1px solid transparent;
-      transition: border-color 0.3s ease;
+      transition: background 0.5s ease, backdrop-filter 0.5s ease, border-color 0.5s ease;
     }
 
     nav.scrolled {
+      background: rgba(250, 247, 242, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border-bottom-color: var(--border);
     }
 
     .nav-logo {
       font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      font-weight: 600;
+      font-size: 1.65rem;
+      font-weight: 700;
       color: var(--charcoal);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
       text-decoration: none;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 2.5rem;
+      gap: 2.25rem;
       list-style: none;
     }
 
-    .nav-links a {
-      font-size: 0.875rem;
+    .nav-links li:not(:last-child) a {
+      font-size: 0.8rem;
       font-weight: 400;
       color: var(--mid);
       text-decoration: none;
       letter-spacing: 0.01em;
-      transition: color 0.2s ease;
+      position: relative;
+      padding-bottom: 2px;
     }
 
-    .nav-links a:hover {
-      color: var(--charcoal);
+    .nav-links li:not(:last-child) a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 0; height: 1px;
+      background: var(--charcoal);
+      transition: width 0.3s ease;
     }
+
+    .nav-links li:not(:last-child) a:hover { color: var(--charcoal); }
+    .nav-links li:not(:last-child) a:hover::after { width: 100%; }
 
     .nav-cta {
-      font-size: 0.875rem;
+      font-size: 0.8rem;
       font-weight: 500;
       color: var(--charcoal) !important;
       background: var(--blush);
-      padding: 0.55rem 1.25rem;
+      padding: 0.45rem 1.1rem;
       border-radius: 2px;
-      transition: background 0.2s ease !important;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s ease;
     }
 
-    .nav-cta:hover {
-      background: #d9a87a !important;
+    .nav-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #c8956a;
+      transform: translateX(-101%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
+    .nav-cta:hover::before { transform: translateX(0); }
+    .nav-cta span { position: relative; z-index: 1; }
 
     .nav-hamburger {
       display: none;
@@ -115,31 +159,29 @@
 
     .nav-hamburger span {
       display: block;
-      width: 24px;
+      width: 22px;
       height: 1.5px;
       background: var(--charcoal);
       transition: all 0.3s ease;
     }
 
-    /* ─── HERO ───────────────────────────────────────── */
+    /* ── HERO ──────────────────────────────────────── */
     .hero {
       min-height: 100vh;
       display: flex;
       align-items: center;
-      padding: 140px 5% 100px;
+      padding: 90px 5% 60px;
       position: relative;
       overflow: hidden;
     }
 
-    .hero::before {
-      content: '';
+    .hero-parallax-bg {
       position: absolute;
-      top: 0; right: 0;
-      width: 45%;
-      height: 100%;
-      background: linear-gradient(135deg, var(--blush-light) 0%, transparent 70%);
-      opacity: 0.5;
+      inset: -15%;
+      background: linear-gradient(135deg, var(--blush-light) 0%, transparent 60%);
+      opacity: 0.45;
       pointer-events: none;
+      will-change: transform;
     }
 
     .hero-inner {
@@ -148,268 +190,339 @@
       width: 100%;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 80px;
+      gap: 56px;
       align-items: center;
+      position: relative;
     }
 
     .hero-tag {
       display: inline-block;
-      font-size: 0.75rem;
+      font-size: 0.68rem;
       font-weight: 500;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--blush);
       background: rgba(232, 196, 160, 0.15);
       border: 1px solid var(--blush);
-      padding: 0.35rem 0.85rem;
+      padding: 0.3rem 0.75rem;
       border-radius: 2px;
-      margin-bottom: 2rem;
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
+    .hero-tag.in { opacity: 1; transform: translateY(0); }
+
+    /* Word-by-word headline */
     .hero h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 5.5vw, 5rem);
+      font-size: clamp(2.4rem, 4.2vw, 4rem);
       font-weight: 500;
-      line-height: 1.08;
+      line-height: 1.1;
       letter-spacing: -0.03em;
       color: var(--charcoal);
-      margin-bottom: 1.75rem;
+      margin-bottom: 1.25rem;
     }
 
-    .hero h1 em {
-      font-style: italic;
-      color: var(--mid);
+    .hero h1 em { font-style: italic; color: var(--mid); }
+
+    .word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
+
+    .word.in { opacity: 1; transform: translateY(0); }
 
     .hero-sub {
-      font-size: 1.1rem;
+      font-size: 0.92rem;
       font-weight: 300;
       color: var(--mid);
       line-height: 1.75;
-      max-width: 480px;
-      margin-bottom: 2.75rem;
+      max-width: 440px;
+      margin-bottom: 2rem;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease 0.55s, transform 0.6s ease 0.55s;
     }
+
+    .hero-sub.in { opacity: 1; transform: translateY(0); }
 
     .hero-actions {
       display: flex;
-      gap: 1rem;
+      gap: 0.85rem;
       flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease 0.7s, transform 0.6s ease 0.7s;
     }
 
+    .hero-actions.in { opacity: 1; transform: translateY(0); }
+
+    /* Buttons — fill animation */
     .btn-primary {
       display: inline-block;
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       font-weight: 500;
       color: var(--charcoal);
       background: var(--blush);
-      padding: 0.85rem 1.85rem;
+      padding: 0.72rem 1.6rem;
       border-radius: 2px;
       text-decoration: none;
       letter-spacing: 0.01em;
-      transition: background 0.2s ease, transform 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s ease, transform 0.25s ease;
     }
 
-    .btn-primary:hover {
-      background: #d9a87a;
-      transform: translateY(-1px);
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #c8956a;
+      transform: translateX(-101%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
+    .btn-primary:hover { transform: translateY(-1px); }
+    .btn-primary:hover::before { transform: translateX(0); }
+    .btn-primary span { position: relative; z-index: 1; }
 
     .btn-ghost {
       display: inline-block;
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       font-weight: 400;
       color: var(--charcoal);
       background: transparent;
       border: 1px solid var(--charcoal);
-      padding: 0.85rem 1.85rem;
+      padding: 0.72rem 1.6rem;
       border-radius: 2px;
       text-decoration: none;
       letter-spacing: 0.01em;
-      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
-    }
-
-    .btn-ghost:hover {
-      background: var(--charcoal);
-      color: var(--cream);
-      transform: translateY(-1px);
-    }
-
-    .hero-visual {
       position: relative;
-    }
-
-    .chat-mockup {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.12), 0 8px 24px rgba(0,0,0,0.06);
       overflow: hidden;
-      border: 1px solid var(--border);
+      transition: color 0.3s ease, transform 0.25s ease;
     }
 
-    .chat-header {
-      background: var(--charcoal);
-      padding: 1rem 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .chat-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--blush);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Playfair Display', serif;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--charcoal);
-      flex-shrink: 0;
-    }
-
-    .chat-header-info {
-      flex: 1;
-    }
-
-    .chat-header-name {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: #fff;
-      line-height: 1.2;
-    }
-
-    .chat-header-status {
-      font-size: 0.7rem;
-      color: #9BE89B;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .chat-header-status::before {
+    .btn-ghost::before {
       content: '';
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #4CAF50;
-    }
-
-    .chat-body {
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      background: #F8F8F8;
-      min-height: 300px;
-    }
-
-    .msg {
-      max-width: 80%;
-      border-radius: 12px;
-      padding: 0.75rem 1rem;
-      font-size: 0.82rem;
-      line-height: 1.55;
-    }
-
-    .msg-bot {
-      background: #fff;
-      color: var(--charcoal);
-      align-self: flex-start;
-      border-bottom-left-radius: 4px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-    }
-
-    .msg-user {
+      position: absolute;
+      inset: 0;
       background: var(--charcoal);
-      color: #fff;
-      align-self: flex-end;
-      border-bottom-right-radius: 4px;
+      transform: translateY(101%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .msg-time {
-      font-size: 0.65rem;
-      color: var(--light);
-      margin-top: 0.2rem;
-    }
-
-    .msg-user .msg-time {
-      color: rgba(255,255,255,0.5);
-      text-align: right;
-    }
-
-    .chat-input-area {
-      padding: 1rem 1.25rem;
-      background: #fff;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .chat-input {
-      flex: 1;
-      background: #F8F8F8;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 0.6rem 1rem;
-      font-size: 0.8rem;
-      color: var(--light);
-      font-family: 'DM Sans', sans-serif;
-    }
-
-    .chat-send {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--blush);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .chat-send svg {
-      width: 14px;
-      height: 14px;
-      fill: var(--charcoal);
-    }
+    .btn-ghost:hover { color: var(--cream); transform: translateY(-1px); }
+    .btn-ghost:hover::before { transform: translateY(0); }
+    .btn-ghost span { position: relative; z-index: 1; }
 
     .hero-stat-row {
       display: flex;
-      gap: 2rem;
-      margin-top: 2rem;
-      padding-top: 2rem;
+      gap: 1.75rem;
+      margin-top: 1.75rem;
+      padding-top: 1.75rem;
       border-top: 1px solid var(--border);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease 0.85s, transform 0.6s ease 0.85s;
     }
 
-    .hero-stat {
-      display: flex;
-      flex-direction: column;
-    }
+    .hero-stat-row.in { opacity: 1; transform: translateY(0); }
 
     .hero-stat-num {
       font-family: 'Playfair Display', serif;
-      font-size: 1.75rem;
+      font-size: 1.5rem;
       font-weight: 600;
       color: var(--charcoal);
       line-height: 1;
     }
 
     .hero-stat-label {
-      font-size: 0.75rem;
+      font-size: 0.68rem;
       color: var(--light);
-      margin-top: 0.3rem;
+      margin-top: 0.25rem;
       letter-spacing: 0.02em;
     }
 
-    /* ─── LOGO STRIP ─────────────────────────────────── */
+    /* ── CHAT MOCKUP ───────────────────────────────── */
+    .hero-visual {
+      position: relative;
+      opacity: 0;
+      transform: translateX(30px);
+      transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
+    }
+
+    .hero-visual.in { opacity: 1; transform: translateX(0); }
+
+    .chat-mockup {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.11), 0 6px 20px rgba(0,0,0,0.05);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .chat-header {
+      background: var(--charcoal);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .chat-avatar {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: var(--blush);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      flex-shrink: 0;
+    }
+
+    .chat-header-name { font-size: 0.78rem; font-weight: 500; color: #fff; line-height: 1.2; }
+    .chat-header-status {
+      font-size: 0.63rem; color: #9BE89B;
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+
+    .chat-header-status::before {
+      content: '';
+      display: inline-block;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #4CAF50;
+    }
+
+    .chat-body {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      background: #F8F8F8;
+      min-height: 0;
+    }
+
+    .msg-wrapper {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      margin-bottom: 0.65rem;
+    }
+
+    .msg-wrapper.msg-visible { opacity: 1; transform: translateY(0); }
+
+    .msg {
+      max-width: 82%;
+      border-radius: 10px;
+      padding: 0.6rem 0.85rem;
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .msg-bot {
+      background: #fff;
+      color: var(--charcoal);
+      align-self: flex-start;
+      border-bottom-left-radius: 3px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    .msg-user {
+      background: var(--charcoal);
+      color: #fff;
+      align-self: flex-end;
+      margin-left: auto;
+      border-bottom-right-radius: 3px;
+    }
+
+    .msg-time {
+      font-size: 0.6rem;
+      color: var(--light);
+      margin-top: 0.15rem;
+    }
+
+    .msg-user-wrap .msg-time { color: rgba(255,255,255,0.45); text-align: right; }
+
+    /* Typing indicator */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 0.5rem 0.75rem;
+      background: #fff;
+      border-radius: 10px;
+      border-bottom-left-radius: 3px;
+      width: fit-content;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      margin-bottom: 0.65rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .typing-indicator.show { opacity: 1; }
+
+    .typing-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--light);
+      animation: bounce 1.2s ease infinite;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-4px); }
+    }
+
+    .chat-input-area {
+      padding: 0.75rem 1rem;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .chat-input-fake {
+      flex: 1;
+      background: #F8F8F8;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.72rem;
+      color: var(--light);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .chat-send {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--blush);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .chat-send svg { width: 12px; height: 12px; fill: var(--charcoal); }
+
+    /* ── LOGO STRIP ────────────────────────────────── */
     .logo-strip {
-      padding: 2.5rem 5%;
+      padding: 1.75rem 5%;
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
       background: #fff;
@@ -420,12 +533,12 @@
       margin: 0 auto;
       display: flex;
       align-items: center;
-      gap: 3rem;
+      gap: 2.5rem;
       flex-wrap: wrap;
     }
 
     .logo-strip-label {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 500;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -436,190 +549,218 @@
     .logo-strip-items {
       display: flex;
       align-items: center;
-      gap: 2.5rem;
+      gap: 2rem;
       flex-wrap: wrap;
     }
 
     .logo-item {
       font-family: 'Playfair Display', serif;
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 500;
       color: var(--border);
-      letter-spacing: 0.02em;
     }
 
-    /* ─── PROBLEM ────────────────────────────────────── */
+    /* ── SECTION ANIMATION BASE ────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+
+    /* ── SECTION DIVIDER ───────────────────────────── */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+    }
+
+    /* ── PROBLEM ───────────────────────────────────── */
     .problem {
-      background: var(--black);
-      padding: 120px 5%;
+      padding: 90px 5%;
       color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .problem-animated-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 50%, rgba(232,196,160,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% 30%, rgba(232,196,160,0.05) 0%, transparent 60%),
+        var(--black);
+      background-size: 200% 200%;
+      animation: problem-gradient 12s ease infinite alternate;
+    }
+
+    @keyframes problem-gradient {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .problem-inner {
       max-width: 1200px;
       margin: 0 auto;
+      position: relative;
     }
 
     .problem-headline {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 4.5vw, 4rem);
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
       font-weight: 400;
       line-height: 1.2;
       letter-spacing: -0.025em;
       color: #fff;
-      max-width: 750px;
-      margin-bottom: 80px;
+      max-width: 650px;
+      margin-bottom: 60px;
     }
 
-    .problem-headline em {
-      font-style: italic;
-      color: var(--blush);
-    }
+    .problem-headline em { font-style: italic; color: var(--blush); }
 
     .problem-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.07);
     }
 
     .problem-card {
-      padding: 2.5rem;
+      padding: 2rem;
       background: var(--black);
-      transition: background 0.3s ease;
+      transition: background 0.35s ease;
+      position: relative;
     }
 
-    .problem-card:hover {
-      background: #1a1a1a;
+    .problem-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(232,196,160,0.04);
+      opacity: 0;
+      transition: opacity 0.35s ease;
     }
 
-    .problem-icon {
-      font-size: 1.5rem;
-      margin-bottom: 1.25rem;
-      display: block;
-      opacity: 0.7;
-    }
+    .problem-card:hover { background: #161616; }
+    .problem-card:hover::before { opacity: 1; }
+
+    .problem-icon { font-size: 1.25rem; margin-bottom: 1rem; display: block; opacity: 0.75; }
 
     .problem-card h3 {
       font-family: 'Playfair Display', serif;
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       font-weight: 500;
       color: #fff;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.6rem;
       line-height: 1.3;
     }
 
     .problem-card p {
-      font-size: 0.875rem;
+      font-size: 0.8rem;
       font-weight: 300;
-      color: rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.45);
       line-height: 1.7;
     }
 
-    /* ─── HOW IT WORKS ───────────────────────────────── */
+    /* ── HOW IT WORKS ──────────────────────────────── */
     .how {
-      padding: 120px 5%;
+      padding: 90px 5%;
       background: var(--cream);
     }
 
-    .how-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+    .how-inner { max-width: 1200px; margin: 0 auto; }
 
     .section-label {
       display: inline-block;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 500;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--blush);
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
     }
 
     .section-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-size: clamp(1.65rem, 2.8vw, 2.4rem);
       font-weight: 500;
       color: var(--charcoal);
       letter-spacing: -0.025em;
       line-height: 1.2;
-      margin-bottom: 5rem;
-      max-width: 500px;
+      margin-bottom: 4rem;
+      max-width: 440px;
     }
 
     .steps {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 4rem;
+      gap: 3rem;
     }
 
     .step {
-      position: relative;
-      padding-top: 2.5rem;
+      padding-top: 2rem;
       border-top: 1px solid var(--border);
     }
 
     .step-num {
       font-family: 'Playfair Display', serif;
-      font-size: 3.5rem;
+      font-size: 2.8rem;
       font-weight: 400;
       color: var(--blush);
       line-height: 1;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.1rem;
       letter-spacing: -0.03em;
     }
 
     .step h3 {
       font-family: 'Playfair Display', serif;
-      font-size: 1.35rem;
+      font-size: 1.1rem;
       font-weight: 500;
       color: var(--charcoal);
-      margin-bottom: 0.85rem;
+      margin-bottom: 0.65rem;
       line-height: 1.3;
     }
 
     .step p {
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       font-weight: 300;
       color: var(--mid);
       line-height: 1.8;
     }
 
-    /* ─── PRICING ────────────────────────────────────── */
+    /* ── PRICING ───────────────────────────────────── */
     .pricing {
-      padding: 120px 5%;
+      padding: 90px 5%;
       background: #fff;
     }
 
-    .pricing-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .pricing-header {
-      margin-bottom: 4rem;
-    }
+    .pricing-inner { max-width: 1200px; margin: 0 auto; }
+    .pricing-header { margin-bottom: 3rem; }
 
     .pricing-cards {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-bottom: 3rem;
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
     }
 
     .pricing-card {
       border: 1px solid var(--border);
-      padding: 3rem;
+      padding: 2.5rem;
       border-radius: 4px;
       position: relative;
-      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      transition: box-shadow 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .pricing-card:hover {
-      box-shadow: 0 16px 48px rgba(0,0,0,0.08);
-      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.09);
+      transform: scale(1.02);
     }
 
     .pricing-card.featured {
@@ -630,213 +771,197 @@
 
     .pricing-badge {
       position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
-      font-size: 0.65rem;
+      top: 1.25rem; right: 1.25rem;
+      font-size: 0.6rem;
       font-weight: 500;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       background: var(--blush);
       color: var(--charcoal);
-      padding: 0.3rem 0.7rem;
+      padding: 0.25rem 0.6rem;
       border-radius: 2px;
     }
 
     .pricing-plan {
-      font-size: 0.75rem;
+      font-size: 0.68rem;
       font-weight: 500;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--light);
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
     }
 
-    .pricing-card.featured .pricing-plan {
-      color: rgba(255,255,255,0.5);
-    }
+    .pricing-card.featured .pricing-plan { color: rgba(255,255,255,0.45); }
 
     .pricing-price {
       font-family: 'Playfair Display', serif;
-      font-size: 3.5rem;
+      font-size: 2.8rem;
       font-weight: 600;
       color: var(--charcoal);
       line-height: 1;
       letter-spacing: -0.03em;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.2rem;
     }
 
-    .pricing-card.featured .pricing-price {
-      color: #fff;
-    }
+    .pricing-card.featured .pricing-price { color: #fff; }
 
-    .pricing-period {
-      font-size: 0.8rem;
-      color: var(--light);
-      margin-bottom: 2rem;
-    }
-
-    .pricing-card.featured .pricing-period {
-      color: rgba(255,255,255,0.4);
-    }
+    .pricing-period { font-size: 0.75rem; color: var(--light); margin-bottom: 1.75rem; }
+    .pricing-card.featured .pricing-period { color: rgba(255,255,255,0.35); }
 
     .pricing-divider {
       height: 1px;
       background: var(--border);
-      margin-bottom: 2rem;
+      margin-bottom: 1.75rem;
     }
 
-    .pricing-card.featured .pricing-divider {
-      background: rgba(255,255,255,0.1);
-    }
+    .pricing-card.featured .pricing-divider { background: rgba(255,255,255,0.1); }
 
     .pricing-features {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 0.85rem;
-      margin-bottom: 2.5rem;
+      gap: 0.7rem;
+      margin-bottom: 2rem;
     }
 
     .pricing-features li {
-      font-size: 0.875rem;
+      font-size: 0.8rem;
       font-weight: 300;
       color: var(--mid);
       display: flex;
       align-items: flex-start;
-      gap: 0.75rem;
+      gap: 0.65rem;
       line-height: 1.5;
     }
 
-    .pricing-card.featured .pricing-features li {
-      color: rgba(255,255,255,0.75);
-    }
+    .pricing-card.featured .pricing-features li { color: rgba(255,255,255,0.7); }
 
     .pricing-features li::before {
       content: '—';
       color: var(--blush);
       flex-shrink: 0;
-      margin-top: 0.05rem;
     }
 
     .btn-card {
       display: block;
       text-align: center;
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.875rem;
+      font-size: 0.8rem;
       font-weight: 500;
-      padding: 0.9rem;
+      padding: 0.8rem;
       border-radius: 2px;
       text-decoration: none;
-      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s ease;
     }
 
-    .btn-card-light {
-      background: var(--blush);
-      color: var(--charcoal);
+    .btn-card-light { background: var(--blush); color: var(--charcoal); }
+    .btn-card-dark  { background: var(--cream); color: var(--charcoal); }
+
+    .btn-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translateX(-101%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .btn-card-light:hover {
-      background: #d9a87a;
-    }
+    .btn-card-light::before { background: #c8956a; }
+    .btn-card-dark::before  { background: var(--blush); }
 
-    .btn-card-dark {
-      background: var(--cream);
-      color: var(--charcoal);
-    }
-
-    .btn-card-dark:hover {
-      background: var(--blush);
-    }
+    .btn-card:hover::before { transform: translateX(0); }
+    .btn-card span { position: relative; z-index: 1; }
 
     .pricing-footer {
       text-align: center;
-      padding: 2.5rem;
+      padding: 2rem;
       background: var(--cream);
       border-radius: 4px;
       border: 1px solid var(--border);
     }
 
     .pricing-footer p {
-      font-size: 1.05rem;
+      font-size: 0.92rem;
       font-weight: 300;
       color: var(--mid);
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
     }
 
-    .pricing-footer strong {
-      font-weight: 500;
-      color: var(--charcoal);
-    }
+    .pricing-footer strong { font-weight: 500; color: var(--charcoal); }
 
-    /* ─── DEMO ───────────────────────────────────────── */
+    /* ── DEMO ──────────────────────────────────────── */
     .demo {
-      padding: 140px 5%;
+      padding: 110px 5%;
       background: var(--cream);
       text-align: center;
     }
 
-    .demo-inner {
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .demo .section-label {
-      display: block;
-      text-align: center;
-    }
+    .demo-inner { max-width: 640px; margin: 0 auto; }
+    .demo .section-label { display: block; text-align: center; }
 
     .demo h2 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.5rem, 4.5vw, 4rem);
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
       font-weight: 500;
       color: var(--charcoal);
       letter-spacing: -0.03em;
       line-height: 1.1;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.1rem;
     }
 
-    .demo h2 em {
-      font-style: italic;
-      color: var(--mid);
-    }
+    .demo h2 em { font-style: italic; color: var(--mid); }
 
     .demo p {
-      font-size: 1.05rem;
+      font-size: 0.92rem;
       font-weight: 300;
       color: var(--mid);
       line-height: 1.8;
-      margin-bottom: 3rem;
+      margin-bottom: 2.5rem;
     }
 
     .btn-demo {
       display: inline-block;
       font-family: 'DM Sans', sans-serif;
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 400;
       color: var(--charcoal);
       border: 1.5px solid var(--charcoal);
-      padding: 1rem 2.5rem;
+      padding: 0.9rem 2.25rem;
       border-radius: 2px;
       text-decoration: none;
       letter-spacing: 0.02em;
-      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .btn-demo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--charcoal);
+      transform: translateY(101%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .btn-demo:hover {
-      background: var(--charcoal);
       color: var(--cream);
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(0,0,0,0.12);
     }
 
-    /* ─── FOOTER ─────────────────────────────────────── */
+    .btn-demo:hover::before { transform: translateY(0); }
+    .btn-demo span { position: relative; z-index: 1; }
+
+    /* ── FOOTER ────────────────────────────────────── */
     footer {
       background: var(--black);
-      padding: 2.5rem 5%;
+      padding: 2rem 5%;
       border-top: 1px solid rgba(255,255,255,0.06);
     }
 
-    footer .footer-inner {
+    .footer-inner {
       max-width: 1200px;
       margin: 0 auto;
       display: flex;
@@ -849,180 +974,109 @@
     .footer-left {
       display: flex;
       align-items: center;
-      gap: 2rem;
+      gap: 1.75rem;
       flex-wrap: wrap;
     }
 
     .footer-logo {
       font-family: 'Playfair Display', serif;
-      font-size: 1.25rem;
-      font-weight: 500;
+      font-size: 1.15rem;
+      font-weight: 600;
       color: #fff;
       letter-spacing: -0.02em;
     }
 
-    .footer-copy {
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.3);
-    }
+    .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.28); }
 
-    .footer-links {
-      display: flex;
-      gap: 1.75rem;
-    }
+    .footer-links { display: flex; gap: 1.5rem; }
 
     .footer-links a {
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.4);
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.38);
       text-decoration: none;
       transition: color 0.2s ease;
     }
 
-    .footer-links a:hover {
-      color: rgba(255,255,255,0.8);
-    }
+    .footer-links a:hover { color: rgba(255,255,255,0.75); }
 
-    /* ─── ANIMATIONS ─────────────────────────────────── */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .fade-in-delay-1 { transition-delay: 0.1s; }
-    .fade-in-delay-2 { transition-delay: 0.2s; }
-    .fade-in-delay-3 { transition-delay: 0.3s; }
-
-    /* ─── MOBILE ─────────────────────────────────────── */
+    /* ── MOBILE ────────────────────────────────────── */
     @media (max-width: 900px) {
-      .hero-inner {
-        grid-template-columns: 1fr;
-        gap: 60px;
-      }
-
-      .hero-visual {
-        order: -1;
-      }
-
-      .hero {
-        padding: 120px 5% 80px;
-      }
-
-      .steps {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-      }
-
-      .problem-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .pricing-cards {
-        grid-template-columns: 1fr;
-      }
-
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero-visual { order: -1; }
+      .hero { padding: 90px 5% 60px; }
+      .steps { grid-template-columns: 1fr; gap: 2.25rem; }
+      .problem-grid { grid-template-columns: 1fr; }
+      .pricing-cards { grid-template-columns: 1fr; }
       .nav-links {
         display: none;
         position: fixed;
-        top: 72px;
-        left: 0;
-        right: 0;
+        top: 62px; left: 0; right: 0;
         background: var(--cream);
         flex-direction: column;
-        padding: 2rem 5%;
+        padding: 1.5rem 5%;
         border-bottom: 1px solid var(--border);
-        gap: 1.5rem;
+        gap: 1.25rem;
         align-items: flex-start;
       }
-
-      .nav-links.open {
-        display: flex;
-      }
-
-      .nav-hamburger {
-        display: flex;
-      }
+      .nav-links.open { display: flex; }
+      .nav-hamburger { display: flex; }
     }
 
     @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-
-      .hero-stat-row {
-        gap: 1.25rem;
-      }
-
-      .hero-actions {
-        flex-direction: column;
-      }
-
-      .btn-primary, .btn-ghost {
-        text-align: center;
-      }
-
-      .pricing-card {
-        padding: 2rem;
-      }
-
-      footer .footer-inner {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+      .hero h1 { font-size: 2.1rem; }
+      .hero-stat-row { gap: 1rem; }
+      .hero-actions { flex-direction: column; }
+      .btn-primary, .btn-ghost { text-align: center; }
+      .pricing-card { padding: 1.75rem; }
+      footer .footer-inner { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
-<body>
+<body class="grain">
 
-  <!-- NAVIGATION -->
+  <!-- NAV -->
   <nav id="nav">
     <a href="#" class="nav-logo">Sipp</a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#how">how it works</a></li>
       <li><a href="#pricing">pricing</a></li>
       <li><a href="#demo">demo</a></li>
-      <li><a href="mailto:hello@sipp.es" class="nav-cta">get in touch</a></li>
+      <li><a href="mailto:hello@sipp.es" class="nav-cta"><span>get in touch</span></a></li>
     </ul>
-    <div class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
-      <span></span>
-      <span></span>
-      <span></span>
+    <div class="nav-hamburger" id="hamburger">
+      <span></span><span></span><span></span>
     </div>
   </nav>
 
   <!-- HERO -->
   <section class="hero" id="hero">
+    <div class="hero-parallax-bg" id="parallaxBg"></div>
     <div class="hero-inner">
       <div class="hero-content">
-        <span class="hero-tag">AI for independent hotels</span>
-        <h1>Your hotel,<br /><em>always on.</em></h1>
-        <p class="hero-sub">We help independent Barcelona hotels answer guest questions 24/7, capture direct bookings, and free up your front desk — without long contracts or booking commissions.</p>
-        <div class="hero-actions">
-          <a href="https://demo.sipp.es" class="btn-primary">see the demo</a>
-          <a href="mailto:hello@sipp.es" class="btn-ghost">start free trial</a>
+        <span class="hero-tag" id="heroTag">AI for independent hotels</span>
+        <h1 id="heroHeadline">Your hotel, <em>always on.</em></h1>
+        <p class="hero-sub" id="heroSub">We help independent Barcelona hotels answer guest questions 24/7, capture direct bookings, and free up your front desk — without long contracts or booking commissions.</p>
+        <div class="hero-actions" id="heroActions">
+          <a href="https://demo.sipp.es" class="btn-primary"><span>see the demo</span></a>
+          <a href="mailto:hello@sipp.es" class="btn-ghost"><span>start free trial</span></a>
         </div>
-        <div class="hero-stat-row">
+        <div class="hero-stat-row" id="heroStats">
           <div class="hero-stat">
-            <span class="hero-stat-num">24/7</span>
-            <span class="hero-stat-label">always available</span>
+            <div class="hero-stat-num">24/7</div>
+            <div class="hero-stat-label">always available</div>
           </div>
           <div class="hero-stat">
-            <span class="hero-stat-num">3+</span>
-            <span class="hero-stat-label">languages supported</span>
+            <div class="hero-stat-num">3+</div>
+            <div class="hero-stat-label">languages supported</div>
           </div>
           <div class="hero-stat">
-            <span class="hero-stat-num">7 days</span>
-            <span class="hero-stat-label">to go live</span>
+            <div class="hero-stat-num">7 days</div>
+            <div class="hero-stat-label">to go live</div>
           </div>
         </div>
       </div>
 
-      <div class="hero-visual">
+      <div class="hero-visual" id="heroVisual">
         <div class="chat-mockup">
           <div class="chat-header">
             <div class="chat-avatar">S</div>
@@ -1031,32 +1085,13 @@
               <div class="chat-header-status">online now</div>
             </div>
           </div>
-          <div class="chat-body">
-            <div>
-              <div class="msg msg-bot">Hola! I'm your virtual concierge. How can I help you today? 🏨</div>
-              <div class="msg-time">2:14 AM</div>
-            </div>
-            <div>
-              <div class="msg msg-user">Do you have rooms available for this weekend? What's included in the rate?</div>
-              <div class="msg-time">2:15 AM</div>
-            </div>
-            <div>
-              <div class="msg msg-bot">Great news — we do have availability this weekend! Our Deluxe rooms start at €185/night, including:&nbsp;&nbsp;✓ Daily breakfast&nbsp;&nbsp;✓ Free Wi-Fi&nbsp;&nbsp;✓ Late checkout on request. Would you like me to send you a direct booking link? No OTA fees. 🙂</div>
-              <div class="msg-time">2:15 AM</div>
-            </div>
-            <div>
-              <div class="msg msg-user">Yes please! And is there parking nearby?</div>
-              <div class="msg-time">2:16 AM</div>
-            </div>
-            <div>
-              <div class="msg msg-bot">Of course — here's your direct link 👉 Booking link sent. For parking, there's a covered garage 50m away at €18/day. I've added the address to your confirmation. Anything else?</div>
-              <div class="msg-time">2:16 AM</div>
-            </div>
+          <div class="chat-body" id="chatBody">
+            <!-- Messages injected by JS -->
           </div>
           <div class="chat-input-area">
-            <div class="chat-input">Type a message...</div>
+            <div class="chat-input-fake">Type a message...</div>
             <div class="chat-send">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
             </div>
           </div>
         </div>
@@ -1065,7 +1100,7 @@
   </section>
 
   <!-- LOGO STRIP -->
-  <div class="logo-strip">
+  <div class="logo-strip section-divider-wrap">
     <div class="logo-strip-inner">
       <span class="logo-strip-label">Designed for hotels like</span>
       <div class="logo-strip-items">
@@ -1080,20 +1115,21 @@
 
   <!-- PROBLEM -->
   <section class="problem" id="problem">
+    <div class="problem-animated-bg"></div>
     <div class="problem-inner">
-      <h2 class="problem-headline fade-in">Your guests ask the same questions at 2am. Your front desk isn't there.<br /><em>We are.</em></h2>
+      <h2 class="problem-headline reveal">Your guests ask the same questions at 2am. Your front desk isn't there.<br /><em>We are.</em></h2>
       <div class="problem-grid">
-        <div class="problem-card fade-in fade-in-delay-1">
+        <div class="problem-card reveal reveal-d1">
           <span class="problem-icon">🌙</span>
           <h3>Missed bookings after hours</h3>
           <p>Guests browse and decide late at night. If no one answers, they book elsewhere — or worse, through an OTA that takes 15%.</p>
         </div>
-        <div class="problem-card fade-in fade-in-delay-2">
+        <div class="problem-card reveal reveal-d2">
           <span class="problem-icon">📋</span>
           <h3>Front desk overwhelmed with repetitive questions</h3>
           <p>Check-in times. Parking. Breakfast hours. WiFi password. Your team answers the same questions dozens of times a day.</p>
         </div>
-        <div class="problem-card fade-in fade-in-delay-3">
+        <div class="problem-card reveal reveal-d3">
           <span class="problem-icon">❓</span>
           <h3>Guests leave without answers</h3>
           <p>Unanswered WhatsApp messages and slow email replies mean frustrated guests — and bad reviews before they even arrive.</p>
@@ -1102,24 +1138,26 @@
     </div>
   </section>
 
+  <div class="section-divider"></div>
+
   <!-- HOW IT WORKS -->
   <section class="how" id="how">
     <div class="how-inner">
-      <span class="section-label">how it works</span>
-      <h2 class="section-title">Live in under a week. No technical work needed.</h2>
+      <span class="section-label reveal">how it works</span>
+      <h2 class="section-title reveal reveal-d1">Live in under a week. No technical work needed.</h2>
       <div class="steps">
-        <div class="step fade-in">
-          <div class="step-num">01</div>
+        <div class="step reveal reveal-d1">
+          <div class="step-num" data-count="01">01</div>
           <h3>We learn your hotel</h3>
           <p>We study your rooms, policies, FAQs and services in detail. You fill out a simple form — we handle everything else.</p>
         </div>
-        <div class="step fade-in fade-in-delay-1">
-          <div class="step-num">02</div>
+        <div class="step reveal reveal-d2">
+          <div class="step-num" data-count="02">02</div>
           <h3>We set everything up</h3>
           <p>We build and configure your chatbot, connect it to your website and WhatsApp, and test it thoroughly. Live in under a week.</p>
         </div>
-        <div class="step fade-in fade-in-delay-2">
-          <div class="step-num">03</div>
+        <div class="step reveal reveal-d3">
+          <div class="step-num" data-count="03">03</div>
           <h3>Your guests get instant answers</h3>
           <p>24/7, in any language, on your website and WhatsApp. You get a monthly report showing conversations, bookings captured, and time saved.</p>
         </div>
@@ -1127,16 +1165,17 @@
     </div>
   </section>
 
+  <div class="section-divider"></div>
+
   <!-- PRICING -->
   <section class="pricing" id="pricing">
     <div class="pricing-inner">
-      <div class="pricing-header">
+      <div class="pricing-header reveal">
         <span class="section-label">pricing</span>
-        <h2 class="section-title">Simple, honest pricing.<br />No commissions, ever.</h2>
+        <h2 class="section-title" style="margin-bottom:0">Simple, honest pricing.<br />No commissions, ever.</h2>
       </div>
       <div class="pricing-cards">
-
-        <div class="pricing-card fade-in">
+        <div class="pricing-card reveal reveal-d1">
           <div class="pricing-plan">Starter</div>
           <div class="pricing-price">€149</div>
           <div class="pricing-period">per month</div>
@@ -1150,10 +1189,9 @@
             <li>Email support</li>
             <li>No booking commissions</li>
           </ul>
-          <a href="mailto:hello@sipp.es" class="btn-card btn-card-light">get started</a>
+          <a href="mailto:hello@sipp.es" class="btn-card btn-card-light"><span>get started</span></a>
         </div>
-
-        <div class="pricing-card featured fade-in fade-in-delay-1">
+        <div class="pricing-card featured reveal reveal-d2">
           <span class="pricing-badge">Most popular</span>
           <div class="pricing-plan">Premium</div>
           <div class="pricing-price">€299</div>
@@ -1168,25 +1206,25 @@
             <li>Dedicated account manager</li>
             <li>Priority support</li>
           </ul>
-          <a href="mailto:hello@sipp.es" class="btn-card btn-card-dark">get started</a>
+          <a href="mailto:hello@sipp.es" class="btn-card btn-card-dark"><span>get started</span></a>
         </div>
-
       </div>
-
-      <div class="pricing-footer fade-in">
+      <div class="pricing-footer reveal reveal-d3">
         <p><strong>Not sure yet?</strong> Start with our free 30-day pilot. No credit card required. No long contracts.</p>
-        <a href="mailto:hello@sipp.es" class="btn-ghost">get in touch</a>
+        <a href="mailto:hello@sipp.es" class="btn-ghost"><span>get in touch</span></a>
       </div>
     </div>
   </section>
 
+  <div class="section-divider"></div>
+
   <!-- DEMO -->
   <section class="demo" id="demo">
-    <div class="demo-inner">
+    <div class="demo-inner reveal">
       <span class="section-label">live demo</span>
       <h2>See it <em>in action</em></h2>
       <p>We built a working demo for a fictional Barcelona hotel. See exactly what your guests would experience — 24/7, in any language.</p>
-      <a href="https://demo.sipp.es" class="btn-demo">view live demo →</a>
+      <a href="https://demo.sipp.es" class="btn-demo"><span>view live demo →</span></a>
     </div>
   </section>
 
@@ -1206,56 +1244,170 @@
   </footer>
 
   <script>
-    // ─── SCROLL EFFECTS ───────────────────────────────
+  (() => {
+    // ── NAV SCROLL ──────────────────────────────────
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 20);
+      nav.classList.toggle('scrolled', window.scrollY > 30);
+    }, { passive: true });
+
+    // ── MOBILE MENU ─────────────────────────────────
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+    document.querySelectorAll('#navLinks a').forEach(a => {
+      a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
     });
 
-    // ─── INTERSECTION OBSERVER ────────────────────────
-    const fadeEls = document.querySelectorAll('.fade-in');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
+    // ── SMOOTH SCROLL ───────────────────────────────
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+      });
+    });
+
+    // ── PARALLAX ────────────────────────────────────
+    const parallaxBg = document.getElementById('parallaxBg');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y < window.innerHeight * 1.5) {
+        parallaxBg.style.transform = `translateY(${y * 0.25}px)`;
+      }
+    }, { passive: true });
+
+    // ── HERO WORD ANIMATION ─────────────────────────
+    function animateHero() {
+      // Tag
+      setTimeout(() => document.getElementById('heroTag').classList.add('in'), 100);
+
+      // Headline — split into words preserving em tag
+      const h1 = document.getElementById('heroHeadline');
+      const originalHTML = h1.innerHTML;
+      // Split: "Your hotel, " + "<em>always on.</em>"
+      const parts = [
+        { text: 'Your', em: false },
+        { text: 'hotel,', em: false },
+        { text: 'always on.', em: true },
+      ];
+      h1.innerHTML = parts.map((p, i) =>
+        p.em
+          ? `<em><span class="word" style="transition-delay:${0.15 + i * 0.12}s">${p.text}</span></em>`
+          : `<span class="word" style="transition-delay:${0.15 + i * 0.12}s">${p.text}</span>${i < parts.length - 1 ? ' ' : ''}`
+      ).join(' ');
+
+      setTimeout(() => {
+        h1.querySelectorAll('.word').forEach(w => w.classList.add('in'));
+      }, 150);
+
+      setTimeout(() => document.getElementById('heroSub').classList.add('in'), 200);
+      setTimeout(() => document.getElementById('heroActions').classList.add('in'), 300);
+      setTimeout(() => document.getElementById('heroStats').classList.add('in'), 450);
+      setTimeout(() => document.getElementById('heroVisual').classList.add('in'), 200);
+    }
+
+    // ── CHAT ANIMATION ──────────────────────────────
+    const messages = [
+      { type: 'bot', text: 'Hola! I\'m your virtual concierge. How can I help you today? 🏨', time: '2:14 AM' },
+      { type: 'user', text: 'Do you have rooms available for this weekend? What\'s included in the rate?', time: '2:15 AM' },
+      { type: 'bot', text: 'Great news — we do have availability this weekend! Our Deluxe rooms start at €185/night, including: ✓ Daily breakfast ✓ Free Wi-Fi ✓ Late checkout on request. Would you like me to send you a direct booking link? No OTA fees. 🙂', time: '2:15 AM' },
+      { type: 'user', text: 'Yes please! And is there parking nearby?', time: '2:16 AM' },
+      { type: 'bot', text: 'Of course — here\'s your direct link 👉 Booking link sent. For parking, there\'s a covered garage 50m away at €18/day. Anything else?', time: '2:16 AM' },
+    ];
+
+    const chatBody = document.getElementById('chatBody');
+
+    function buildTypingIndicator() {
+      const t = document.createElement('div');
+      t.className = 'typing-indicator';
+      t.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+      return t;
+    }
+
+    function addMessage(msg, index) {
+      const wrap = document.createElement('div');
+      wrap.className = `msg-wrapper ${msg.type === 'user' ? 'msg-user-wrap' : ''}`;
+      const bubble = document.createElement('div');
+      bubble.className = `msg ${msg.type === 'bot' ? 'msg-bot' : 'msg-user'}`;
+      bubble.textContent = msg.text;
+      const time = document.createElement('div');
+      time.className = 'msg-time';
+      time.textContent = msg.time;
+      wrap.appendChild(bubble);
+      wrap.appendChild(time);
+      chatBody.appendChild(wrap);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => wrap.classList.add('msg-visible'));
+      });
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function animateChat() {
+      chatBody.innerHTML = '';
+      let delay = 600;
+
+      messages.forEach((msg, i) => {
+        if (msg.type === 'bot') {
+          // Show typing dots, then message
+          setTimeout(() => {
+            const t = buildTypingIndicator();
+            chatBody.appendChild(t);
+            chatBody.scrollTop = chatBody.scrollHeight;
+            requestAnimationFrame(() => requestAnimationFrame(() => t.classList.add('show')));
+            setTimeout(() => {
+              t.remove();
+              addMessage(msg, i);
+            }, 900);
+          }, delay);
+          delay += 1400;
+        } else {
+          setTimeout(() => addMessage(msg, i), delay);
+          delay += 600;
+        }
+      });
+    }
+
+    // ── INTERSECTION OBSERVER ───────────────────────
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          revealObserver.unobserve(e.target);
         }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-    fadeEls.forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-    // Hero content visible immediately
-    document.querySelectorAll('.hero .fade-in').forEach(el => {
-      el.classList.add('visible');
-    });
+    // ── COUNT-UP FOR STEP NUMBERS ───────────────────
+    function countUpStep(el, target) {
+      const padded = String(target).padStart(2, '0');
+      let current = 0;
+      const max = parseInt(target);
+      const interval = setInterval(() => {
+        current++;
+        el.textContent = String(current).padStart(2, '0');
+        if (current >= max) clearInterval(interval);
+      }, 80);
+    }
 
-    // ─── MOBILE MENU ──────────────────────────────────
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('navLinks');
-
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
-    });
-
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-      });
-    });
-
-    // ─── SMOOTH SCROLL POLYFILL ───────────────────────
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        if (href === '#') return;
-        const target = document.querySelector(href);
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const stepObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const target = e.target.dataset.count;
+          countUpStep(e.target, parseInt(target));
+          stepObserver.unobserve(e.target);
         }
       });
-    });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.step-num[data-count]').forEach(el => stepObserver.observe(el));
+
+    // ── INIT ────────────────────────────────────────
+    animateHero();
+    animateChat();
+
+  })();
   </script>
 </body>
 </html>
